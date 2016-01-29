@@ -1,0 +1,23 @@
+{
+  "name": "phonebooth-sensor",
+  "version": "0.0.0",
+  "description": "Prototype for PIR motion sensor",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goliatone/rpi-pir-sensor.git"
+  },
+  "author": "goliatone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goliatone/rpi-pir-sensor/issues"
+  },
+  "homepage": "https://github.com/goliatone/rpi-pir-sensor#readme",
+  "dependencies": {
+    "johnny-five": "^0.9.19",
+    "raspi-io": "^5.2.0"
+  }
+}
