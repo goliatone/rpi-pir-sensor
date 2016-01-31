@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/goliatone/rpi-pir-sensor.git"
   },
+  "scripts":{
+    "start": "node index.js"
+  },
   "author": "goliatone",
   "license": "MIT",
   "bugs": {
