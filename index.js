@@ -14,11 +14,11 @@ board.on('ready', function(){
     });
 
     motion.on('motionstart', function(){
-        console.log('Motionstart');
+        console.log('Motion start');
         //post({movement:true});
     });
 
     motion.on('motionend', function(){
-        console.log('Motionstart');
+        console.log('MOtion end');
     });
 });
