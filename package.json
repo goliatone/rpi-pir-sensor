@@ -24,6 +24,8 @@
     "influx": "^4.1.0",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
-    "singleton-uuid": "^0.1.0"
+    "singleton-uuid": "^0.1.0",
+    "johnny-five": "^0.9.19",
+    "raspi-io": "^5.2.0"
   }
 }
