@@ -13,4 +13,4 @@ COPY package.json /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
 
-CMD [ "node", "index.js" ]
+CMD ["/usr/src/app/bin/daemon"]
