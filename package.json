@@ -4,14 +4,11 @@
   "description": "Prototype for PIR motion sensor",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/goliatone/rpi-pir-sensor.git"
-  },
-  "scripts":{
-    "start": "node index.js"
   },
   "author": "goliatone",
   "license": "MIT",
@@ -20,6 +17,9 @@
   },
   "homepage": "https://github.com/goliatone/rpi-pir-sensor#readme",
   "dependencies": {
+    "debug": "^2.2.0",
+    "gextend": "^0.1.6",
+    "grunt-cli": "^0.1.13",
     "johnny-five": "^0.9.19",
     "raspi-io": "^5.2.0"
   }
