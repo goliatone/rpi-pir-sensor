@@ -11,10 +11,10 @@ module.exports = {
         var presence = 0;
         setInterval(function(){
             console.log('Timeout');
-            var value = !! presence % 2;
+            var value = !!((++presence) % 2);
             app.emit('sensor.event', {
                 id: opts.id,
-                value: !! presence % 2,
+                value: value ? 1 : 0,
                 type: 'motion' + (value ? 'start' : 'end')
             });
         }, 1000);
