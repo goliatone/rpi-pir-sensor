@@ -30,7 +30,7 @@ function App(){
 
 _inherits(App, EventEmitter);
 
-App.prototype.init = function(opt){
+App.prototype.start = function(opt){
     server.listen(port);
     server.on('error', this.onError.bind(this));
     server.on('listening', this.onReady.bind(this));
@@ -44,6 +44,7 @@ App.prototype.onReady = function(){
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
+    this.emit('server.ready');
 };
 
 
@@ -74,7 +75,6 @@ App.prototype.onError = function(error){
     }
 };
 var app = new App();
-app.init();
 
 module.exports = app;
 
