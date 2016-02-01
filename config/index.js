@@ -1,8 +1,16 @@
 'use strict';
+var uuidGenerator = require('singleton-uuid');
 
 module.exports = {
     sensor:{
         gpio: process.env.NODE_RPI_GPIO || 'GPIO21'
+    },
+    device: {
+        uuid: uuidGenerator(process.env.NODE_DEVICE_UUID),
+        config: {
+            building: '_unset_',
+            floor: '_unset_'
+        }
     },
     reporter: {
         db: {
