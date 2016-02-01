@@ -17,6 +17,8 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 * NODE_INFLUX_PROTOCOL
 * NODE_INFLUX_SERIES_NAME
 
+* NODE_APP_PORT
+
 ```
 docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --privileged -d rpi-pir-sensor
 ```
