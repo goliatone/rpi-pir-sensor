@@ -29,5 +29,8 @@ var app = {
 //Server: We should be able to change configuration on
 //GUI/Client and then reboot app.
 server.start(function(){
+    /*
+     * Sensor uses app to publish events.
+     */
     sensor.init(app, config.sensor);
 });
