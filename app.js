@@ -7,6 +7,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
+var config = require('./config');
+
 var app = express();
 
 // view engine setup
@@ -23,8 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Wire routes
-require('./routes/index')(app);
-require('./routes/config')(app);
+require('./routes/index')(app, config);
+require('./routes/config')(app, config);
 
 
 // catch 404 and forward to error handler
