@@ -13,25 +13,32 @@ var DEFAULTS = {
     gpio: 'GPIO21'
 };
 
-module.exports = function init(app, opts){
-    /*
-     * Initialize board. We will use
-     * config options to do the reporting
-     */
-    board.on('ready', function(){
-        var motion = new five.Motion(opts.gpio);
+module.exports = {
+    init: function sensor$init(app, opts){
+        /*
+         * Initialize board. We will use
+         * config options to do the reporting
+         */
+        board.on('ready', function(){
+            var motion = new five.Motion(opts.gpio);
 
-        motion.on('motionstart', function(){
-            debug('Motion start');
-            app.publish({type:'motionstart', id: opts.id});
-        });
+            motion.on('motionstart', function(){
+                debug('- Motion start');
+                app.publish({
+                    type:'motionstart',
+                    id: opts.id,
+                    value: 1
+                });
+            });
 
-        motion.on('motionend', function(){
-            debug('Motion end');
-            app.publish({
-                type: 'motionend',
-                id: opts.id
+            motion.on('motionend', function(){
+                debug('- Motion end');
+                app.publish({
+                    type: 'motionend',
+                    id: opts.id,
+                    value: 0
+                });
             });
         });
-    });
+    }
 };
