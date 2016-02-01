@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sensor config</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Sensor Dashboard</h1>
+    <p>Sensor Configuration</p>
+    <form action="config/update" method="POST" accept-charset="utf-8">
+        <input type="text" name="uuid" value="<%= device.uuid %>" placeholder="UUID">
+        <input type="text" name="building" value="<%= device.building %>" placeholder="Building Code">
+        <input type="text" name="floor" value="<%= device.floor %>" placeholder="Floor Code">
+        <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
