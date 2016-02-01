@@ -5,12 +5,17 @@ var router = express.Router();
 
 
 
-module.exports = function(app){
+module.exports = function(app, config){
     router.get('/', function(req, res){
-        res.render('index');
+        res.render('config/index', config);
     });
 
     router.post('/update', function(req, res){
+
+        var options = req.body;
+        // app.update(options, function(success){
+        //     res.send({success: success});
+        // });
         res.send({success: true});
     });
 
