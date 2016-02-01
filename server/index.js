@@ -34,6 +34,9 @@ App.prototype.start = function(opt){
     server.listen(port);
     server.on('error', this.onError.bind(this));
     server.on('listening', this.onReady.bind(this));
+
+    this.express = app;
+    this.server = server;
 };
 /**
  * Event listener for HTTP server "listening" event.
@@ -74,9 +77,12 @@ App.prototype.onError = function(error){
             throw error;
     }
 };
-var app = new App();
 
-module.exports = app;
+module.exports = App;
+module.exports.createServer = function(){
+    var instance = new App();
+    return instance;
+};
 
 
 /**
