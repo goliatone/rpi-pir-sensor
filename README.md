@@ -29,9 +29,9 @@ docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --pri
 
 ### TODO
 
-- [] Publish to AMQP.
-- [] Persist GUI config changes
-- [] Register with and retrieve config from Menagerie
+- [ ] Publish to AMQP.
+- [ ] Persist GUI config changes
+- [ ] Register with and retrieve config from Menagerie
 
 
 [1]: http://blog.hypriot.com
