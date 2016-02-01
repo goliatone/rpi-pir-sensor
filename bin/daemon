@@ -2,29 +2,11 @@
 'use strict';
 
 var sensor = require('../sensor');
-var server = require('../server');
 var config = require('../config');
 var reporter = require('../reporter');
+var server = require('../server').createServer();
 
 reporter.init(config.reporter);
-
-var app = {
-    publish: function(event){
-        reporter.buffer([
-            {
-                event: event.type,
-                value: event.value
-            },
-            {
-                id: event.id,
-                building: config.building,
-                floor: config.floor,
-                type: config.type || 'phonebooth'
-            }
-        ]);
-    }
-};
-
 
 
 //Server: We should be able to change configuration on
@@ -34,6 +16,20 @@ server.on('server.ready', function(){
     /*
      * Sensor uses app to publish events.
      */
-    // sensor.init(app, config.sensor);
-    console.log('READY, GO GO GO')
+    sensor.init(server, config.sensor);
+});
+
+server.on('sensor.event', function(event){
+    reporter.buffer([
+        {
+            event: event.type,
+            value: event.value
+        },
+        {
+            id: event.id,
+            building: config.building,
+            floor: config.floor,
+            type: config.type || 'phonebooth'
+        }
+    ]);
 });
