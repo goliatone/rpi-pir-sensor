@@ -20,6 +20,7 @@ server.on('server.ready', function(){
 });
 
 server.on('sensor.event', function(event){
+    console.warn('sensor.event', event);
     reporter.buffer([
         {
             event: event.type,
