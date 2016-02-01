@@ -1,24 +1,33 @@
-var raspi = require('raspi-io');
-var five = require('johnny-five');
+'use strict';
+
+var sensor = require('./sensor');
+var server = require('./server');
+var config = require('./config');
+var reporter = require('./reporter');
+
+reporter.init(config.reporter);
+
+var app = {
+    publish: function(event){
+        reporter.buffer([
+            {
+                event: event.type,
+                value: event.value
+            },
+            {
+                id: event.id,
+                building: config.building,
+                floor: config.floor,
+                type: config.type || 'phonebooth'
+            }
+        ]);
+    }
+};
 
 
-var board = new five.Board({
-    io: new raspi()
-});
 
-board.on('ready', function(){
-    var motion = new five.Motion('GPIO21');
-
-    motion.on('calibrated', function(){
-        console.log('Sensor calibrated');
-    });
-
-    motion.on('motionstart', function(){
-        console.log('Motion start');
-        //post({movement:true});
-    });
-
-    motion.on('motionend', function(){
-        console.log('MOtion end');
-    });
+//Server: We should be able to change configuration on
+//GUI/Client and then reboot app.
+server.start(function(){
+    sensor.init(app, config.sensor);
 });
