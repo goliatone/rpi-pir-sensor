@@ -1,6 +1,11 @@
 'use strict';
 var uuidGenerator = require('singleton-uuid');
 
+//We have GUI to modify some options. We should
+//be able to save those and load those values on
+//server restarts.
+//TODO: We should load cached version of updated props.
+//TODO: We should be getting config from menagerie
 module.exports = {
     sensor:{
         gpio: process.env.NODE_RPI_GPIO || 'GPIO21'
