@@ -24,7 +24,7 @@ module.exports = {
 
             motion.on('motionstart', function(){
                 debug('- Motion start');
-                app.publish({
+                app.emit('sensor.event', {
                     type:'motionstart',
                     id: opts.id,
                     value: 1
@@ -33,7 +33,7 @@ module.exports = {
 
             motion.on('motionend', function(){
                 debug('- Motion end');
-                app.publish({
+                app.emit('sensor.event', {
                     type: 'motionend',
                     id: opts.id,
                     value: 0
