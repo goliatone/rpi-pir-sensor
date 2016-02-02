@@ -18,6 +18,7 @@ module.exports = {
                 type: 'motion' + (value ? 'start' : 'end')
             });
         }, 1000);
+
         //This does not work :/ figure out, move to routes and do
         //there.
         router.get('/sensor', function(req, res){

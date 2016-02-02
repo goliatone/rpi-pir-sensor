@@ -73,6 +73,9 @@ CREATE CONTINUOUS QUERY cq_30m ON occupancy BEGIN SELECT count(value) AS count I
 - [ ] Publish to AMQP
 - [ ] Register with and retrieve config from Menagerie
 - [ ] Expose Web Client for each sensor
+- [ ] Dynamically name each sensor, use hostname from RPi
+- [ ] Have option to autostart service or wait for GUI config
+- [ ] Have start/stop controls on GUI
 
 
 [1]: http://blog.hypriot.com
