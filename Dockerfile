@@ -17,5 +17,6 @@ EXPOSE 3000
 
 #Envs
 ENV NODE_RPI_REPL=false
+ENV NODE_RPI_ID=$HOSTNAME
 
 CMD ["/usr/src/app/bin/daemon"]
