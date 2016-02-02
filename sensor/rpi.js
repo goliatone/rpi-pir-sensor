@@ -6,7 +6,8 @@ var extend = require('gextend');
 var debug = require('debug')('sensor:gpio');
 
 var board = new five.Board({
-    io: new raspi()
+    io: new raspi(),
+    repl: process.env.NODE_RPI_REPL
 });
 
 var DEFAULTS = {
