@@ -8,6 +8,7 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 ### Environment variables
 
 * NODE_RPI_GPIO
+* NODE_RPI_ARCH
 
 * NODE_INFLUX_HOST
 * *NODE_INFLUX_PORT
@@ -26,6 +27,26 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --privileged -d rpi-pir-sensor
 ```
 
+
+### InfluxDB
+
+Create DB:
+
+```sql
+CREATE DATABASE "occupancy"
+```
+
+
+Create user:
+
+```sql
+CREATE USER reporter WITH PASSWORD '<password>'
+```
+
+Grant write privileges:
+```sql
+GRANT WRITE ON occupancy TO reporter
+```
 
 
 ### TODO
