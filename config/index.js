@@ -8,6 +8,7 @@ var uuidGenerator = require('singleton-uuid');
 //TODO: We should be getting config from menagerie
 module.exports = {
     sensor:{
+        //Should we use uuid?
         id: process.env.NODE_RPI_ID,
         gpio: process.env.NODE_RPI_GPIO || 'GPIO21'
     },
