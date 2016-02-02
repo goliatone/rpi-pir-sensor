@@ -29,11 +29,13 @@ module.exports = {
             protocol: process.env.NODE_INFLUX_PROTOCOL || 'https'
         },
         seriesName: process.env.NODE_INFLUX_SERIES_NAME || 'presence',
-        bufferSize: 10
+        bufferSize: 10,
+        //TODO: We need to sync this and the GUI
+        tags: {
+            building: process.env.NODE_APP_BUILDING,
+            floor: process.env.NODE_APP_FLOOR,
+            type: process.env.NODE_APP_TYPE || 'phonebooth'
+        }
     },
-    app: {
-        building: process.env.NODE_APP_BUILDING,
-        floor: process.env.NODE_APP_FLOOR,
-        type: process.env.NODE_APP_TYPE
-    }
+    app: {}
 };
