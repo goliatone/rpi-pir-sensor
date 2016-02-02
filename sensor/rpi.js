@@ -5,9 +5,14 @@ var five = require('johnny-five');
 var extend = require('gextend');
 var debug = require('debug')('sensor:gpio');
 
+function getRepl(){
+    if(process.env.NODE_RPI_REPL === 'true') return true;
+    return false;
+}
+
 var board = new five.Board({
     io: new raspi(),
-    repl: process.env.NODE_RPI_REPL
+    repl: getRepel()
 });
 
 var DEFAULTS = {
