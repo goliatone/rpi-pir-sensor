@@ -12,7 +12,7 @@ function getRepl(){
 
 var board = new five.Board({
     io: new raspi(),
-    repl: getRepel()
+    repl: getRepl()
 });
 
 var DEFAULTS = {
