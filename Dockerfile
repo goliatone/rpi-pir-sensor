@@ -15,4 +15,7 @@ COPY . /usr/src/app
 
 EXPOSE 3000
 
+#Envs
+ENV NODE_RPI_REPL=false
+
 CMD ["/usr/src/app/bin/daemon"]
