@@ -13,6 +13,13 @@ COPY package.json /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
 
+
+#set timezone
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# RUN echo "America/New_York" > /etc/timezone
+# RUN dpkg-reconfigure -f noninteractive tzdata
+
 EXPOSE 3000
 
 #Envs
