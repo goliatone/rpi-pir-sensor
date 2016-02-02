@@ -24,17 +24,17 @@ module.exports = {
         buffer.length = 0;
     },
     store: function(seriesName, points){
-        if(process.env.NODE_INFLUX_DRYRUN) {
+        if(process.env.NODE_INFLUX_DRYRUN === 'true') {
             return console.log('Influx:store', seriesName, points);
         }
-
+        debug('Reporter: store...');
         client.writePoints(seriesName, points, function(err, res){
             if(err) console.error('Reporter Error: writePoints', err);
             else debug('Reporter: store OK', res);
         });
     },
     point: function(seriesName, values, tags){
-        if(process.env.NODE_INFLUX_DRYRUN) {
+        if(process.env.NODE_INFLUX_DRYRUN === 'true'){
             return console.log('Influx:point', seriesName, values, tags);
         }
 
