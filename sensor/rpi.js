@@ -33,7 +33,8 @@ module.exports = {
                 app.emit('sensor.event', {
                     type:'motionstart',
                     id: opts.id,
-                    value: 1
+                    value: 1,
+                    time: Date.now()
                 });
             });
 
@@ -42,7 +43,8 @@ module.exports = {
                 app.emit('sensor.event', {
                     type: 'motionend',
                     id: opts.id,
-                    value: 0
+                    value: 0,
+                    time: Date.now()
                 });
             });
         });
