@@ -22,10 +22,11 @@ server.on('server.ready', function(){
 server.on('sensor.event', function(event){
     console.warn('sensor.event', event);
 
+    //We could just pass through the event?
     var payload = getPayload({
             event: event.type,
             value: event.value,
-            time: new Date()
+            time: event.time || Date.now()
         }, {
             id: event.id
         }, config.reporter.tags);
