@@ -15,7 +15,8 @@ module.exports = {
             app.emit('sensor.event', {
                 id: opts.id,
                 value: value ? 1 : 0,
-                type: 'motion' + (value ? 'start' : 'end')
+                type: 'motion' + (value ? 'start' : 'end'),
+                time: Date.now()
             });
         }, 1000);
 
@@ -26,7 +27,8 @@ module.exports = {
             app.emit('sensor.event', {
                 type: 'motionmock',
                 id: opts.id,
-                value: 23
+                value: 23,
+                time: Date.now()
             });
             res.send(200);
         });
