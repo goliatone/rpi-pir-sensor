@@ -67,6 +67,11 @@ CREATE RETENTION POLICY daily_retention ON occupancy DURATION 24h REPLICATION 1 
 CREATE CONTINUOUS QUERY cq_30m ON occupancy BEGIN SELECT count(value) AS count INTO occupancy."default".downsampled_count FROM phonebooth GROUP BY time(30m) END
 ```
 
+
+```
+SELECT count(value) from occupancy_test."default".phonebooth
+```
+
 ### TODO
 
 - [ ] Persist GUI config changes
