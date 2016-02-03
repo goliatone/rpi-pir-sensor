@@ -8,15 +8,10 @@
 
 
 #Include our env var file, we define all our environment variables there
-if[! -f .env]; then
-    echo "Env file not found. Run docker without loading env vars."
-else
-    echo "Loading env file."
-    . .env
-fi
+. .env
 
 
-#./bin/daemon
+# ./bin/daemon
 
 #Let's run docker
-#docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --privileged -p 3000:3000 -d rpi-pir-sensor
+docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --privileged -p 3000:3000 -d rpi-pir-sensor
