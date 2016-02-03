@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#Include our env var file, we define all our environment variables there
+. ../.env
+
+#Let's run docker
+docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --privileged -p 3000:3000 -d rpi-pir-sensor
