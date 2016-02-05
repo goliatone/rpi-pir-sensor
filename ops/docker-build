@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#################################
+# This script should be fired from
+# the src directory. Paths are
+# relative to that :)
+#################################
+
+
+#Include our env var file, we define all our environment variables there
+docker build -t rpi-pir-sensor .
+
