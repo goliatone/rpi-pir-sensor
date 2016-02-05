@@ -5,9 +5,11 @@ var sensor = require('../sensor');
 var config = require('../config');
 var reporter = require('../reporter');
 var server = require('../server').createServer();
-// return console.log(JSON.stringify(config, null, 4));
+
 reporter.init(config.reporter);
 
+console.log('config');
+console.log(JSON.stringify(config, null, 4));
 
 //Server: We should be able to change configuration on
 //GUI/Client and then reboot app.
