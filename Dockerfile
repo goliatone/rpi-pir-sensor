@@ -13,7 +13,6 @@ COPY package.json /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
 
-
 #set timezone
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -21,9 +20,5 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # RUN dpkg-reconfigure -f noninteractive tzdata
 
 EXPOSE 3000
-
-#Envs
-ENV NODE_RPI_REPL=false
-ENV NODE_RPI_ID=$HOSTNAME
 
 CMD ["/usr/src/app/bin/daemon"]
