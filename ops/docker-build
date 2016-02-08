@@ -8,5 +8,5 @@
 
 
 #Include our env var file, we define all our environment variables there
-docker build -t rpi-pir-sensor .
+docker build -t goliatone/rpi-pir-sensor .
 
