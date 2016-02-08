@@ -59,6 +59,10 @@ GRANT WRITE ON occupancy TO reporter
 SELECT * from occupancy_test."default".phonebooth
 ```
 
+```
+SELECT count(value) from occupancy_test."default".phonebooth
+```
+
 ```sql
 CREATE RETENTION POLICY daily_retention ON occupancy DURATION 24h REPLICATION 1 DEFAULT
 ```
