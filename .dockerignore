@@ -3,3 +3,6 @@ README.md
 .uuid-cache
 .jshintrc
 .gitignore
+.git
+.env
+.envset
