@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#################################
+# This script should be fired from
+# the src directory. Paths are
+# relative to that :)
+#################################
+
+
+docker push goliatone/rpi-pir-sensor
