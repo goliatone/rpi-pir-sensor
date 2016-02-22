@@ -7,7 +7,7 @@ var uuidGenerator = require('singleton-uuid');
 //TODO: We should load cached version of updated props.
 //TODO: We should be getting config from menagerie
 module.exports = {
-    sensor:{
+    sensor: {
         //Should we use uuid?
         id: process.env.NODE_RPI_ID,
         gpio: process.env.NODE_RPI_GPIO || 'GPIO21'
@@ -15,8 +15,22 @@ module.exports = {
     device: {
         uuid: uuidGenerator(process.env.NODE_DEVICE_UUID),
         config: {
-            building: '_unset_',
-            floor: '_unset_'
+            building: process.env.NODE_APP_BUILDING,
+            floor: process.env.NODE_APP_FLOOR
+        }
+    },
+    agent: {
+        url: process.env.NODE_AGENT_ENDPOINT,
+        token: process.env.NODE_AGNET_TOKEN,
+        metadata: process.env.NODE_AGENT_METADATA,
+        payload: {
+            'uuid': uuidGenerator(process.env.NODE_DEVICE_UUID),
+            'id': process.env.NODE_RPI_ID,
+            'typeName': process.env.NODE_DEVICE_TYPE_NAME,
+            'status': 'inuse',
+            'metadata': {
+
+            }
         }
     },
     reporter: {
