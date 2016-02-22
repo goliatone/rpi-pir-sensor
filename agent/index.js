@@ -22,8 +22,6 @@ module.exports.init = function(config, options){
     };
 
     request.post(payload, function(err, httResponse, body){
-        console.log('err', err);
-        console.log('response', httResponse);
-        console.log('body', body);
+        if(err) console.error('ERROR', err);
     });
 };
