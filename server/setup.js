@@ -24,7 +24,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//Wire routes
+//Wire routes:
+require('./routes/meta')(app, config);
 require('./routes/index')(app, config);
 require('./routes/config')(app, config);
 
