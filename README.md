@@ -87,6 +87,19 @@ DROP SERIES FROM occupancy."default".phonebooth WHERE id='wee-1'
 DROP SERIES FROM occupancy."default".phonebooth
 ```
 
+
+### Get RPi serial number
+
+Each RPi has a serial number which we can access:
+```
+awk '/Serial/{print $3}' /proc/cpuinfo
+```
+
+To get MAC address:
+```
+cat /sys/class/net/eth0/address
+```
+
 ### TODO
 
 - [ ] Persist GUI config changes
