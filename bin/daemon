@@ -13,8 +13,7 @@ console.log(JSON.stringify(config, null, 4));
 
 //Server: We should be able to change configuration on
 //GUI/Client and then reboot app.
-server.start();
-server.on('server.ready', function(){
+server.start().on('server.ready', function(){
     /*
      * Sensor uses app to publish events.
      */
