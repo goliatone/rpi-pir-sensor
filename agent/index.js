@@ -13,23 +13,17 @@ module.exports.init = function(config, options){
     }
 
     config.url = (config.url + '').replace(/\/+$/, '') + '/' + config.payload.uuid;
-    var access_token = config.token;
+    var accessToken = config.token;
 
-    delete config.token;
-    delete config.metadata;
+    var payload = {
+        uri: config.url,
+        qs: { 'access_token': accessToken},
+        form: config.payload
+    };
 
-    return console.log('REGISTERING', JSON.stringify(config, null, 4));
-
-    request.post({
-        url: config.url,
-        qs: {access_token: access_token}
-    },{
-        form: {
-            id: config.id,
-            uuid: config.uuid,
-            status: config.status,
-            typeName: config.typeName,
-            metadata: config.payload.metadata,
-        }
+    request.post(payload, function(err, httResponse, body){
+        console.log('err', err);
+        console.log('response', httResponse);
+        console.log('body', body);
     });
 };
