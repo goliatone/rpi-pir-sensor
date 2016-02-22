@@ -1,9 +1,18 @@
 ### Raspberry Pi PIR 
 Simple PoC to collect motion data using Raspberry Pi's.
 
+## Development
+
+You can use `envset` to manage a development environment local to your [Mac] computer. For production, if you don't want to install node in the Pi to run `envset` you can export environmental variables in a script before running your docker instance.
+
+```
+$ envset development -- ./bin/daemon
+```
+
+If you run the application locally- not in an ARM environment- then the RPi specific code like raspi-io gets stubbed out.
+
 ### Docker
 The project runs on the Pi using [Hypriot's][1] docker image.
-
 
 ### Environment variables
 
