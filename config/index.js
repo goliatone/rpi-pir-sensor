@@ -21,7 +21,7 @@ module.exports = {
     },
     agent: {
         url: process.env.NODE_AGENT_ENDPOINT,
-        token: process.env.NODE_AGNET_TOKEN,
+        token: process.env.NODE_AGENT_TOKEN,
         metadata: process.env.NODE_AGENT_METADATA,
         payload: {
             'uuid': uuidGenerator(process.env.NODE_DEVICE_UUID),
