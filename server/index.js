@@ -37,6 +37,8 @@ App.prototype.start = function(opt){
 
     this.express = app;
     this.server = server;
+
+    return this;
 };
 /**
  * Event listener for HTTP server "listening" event.
