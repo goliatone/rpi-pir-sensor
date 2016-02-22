@@ -5,8 +5,15 @@ var sensor = require('../sensor');
 var config = require('../config');
 var reporter = require('../reporter');
 var server = require('../server').createServer();
+var agent = require('../agent');
+
+/*
+ * Initialize menagerie agent.
+ */
+agent.init(config.agent, config);
 
 reporter.init(config.reporter);
+
 
 console.log('config');
 console.log(JSON.stringify(config, null, 4));
