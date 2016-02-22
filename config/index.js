@@ -28,9 +28,7 @@ module.exports = {
             'id': process.env.NODE_RPI_ID,
             'typeName': process.env.NODE_DEVICE_TYPE_NAME,
             'status': 'inuse',
-            'metadata': {
-
-            }
+            'metadata': {}
         }
     },
     reporter: {
