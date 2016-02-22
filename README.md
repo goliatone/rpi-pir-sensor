@@ -33,6 +33,10 @@ Note on environment variables, if you add them to the Dockerfile, it seems to sl
 docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --privileged -d rpi-pir-sensor
 ```
 
+To open a shell session:
+```
+docker run -t -i --rm --privileged --cap-add=ALL -v /lib/modules:/lib/modules -v /dev:/dev rpi-pir-sensor /bin/bash
+```
 
 ### InfluxDB
 
@@ -74,6 +78,13 @@ CREATE CONTINUOUS QUERY cq_30m ON occupancy BEGIN SELECT count(value) AS count I
 
 ```
 SELECT count(value) from occupancy_test."default".phonebooth
+```
+
+
+TODO: HOW TO DELETE DATA?
+```sql
+DROP SERIES FROM occupancy."default".phonebooth WHERE id='wee-1'
+DROP SERIES FROM occupancy."default".phonebooth
 ```
 
 ### TODO
