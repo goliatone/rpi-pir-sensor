@@ -34,7 +34,12 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 * NODE_APP_FLOOR
 * NODE_APP_BUILDING
 
-* NODE_DEVICE_UUID 
+* NODE_DEVICE_UUID
+
+* NODE_AGENT_ENDPOINT
+* NODE_AGNET_TOKEN
+* NODE_AGENT_METADATA
+* NODE_DEVICE_TYPE_NAME
 
 Note on environment variables, if you add them to the Dockerfile, it seems to slow down the build process as it has to make a new layer per env var(?!)
 
