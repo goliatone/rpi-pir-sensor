@@ -25,8 +25,9 @@ module.exports = {
         metadata: process.env.NODE_AGENT_METADATA,
         payload: {
             'uuid': uuidGenerator(process.env.NODE_DEVICE_UUID),
-            'id': process.env.NODE_RPI_ID,
+            'name': process.env.NODE_RPI_ID,
             'typeName': process.env.NODE_DEVICE_TYPE_NAME,
+            // 'type': 1,
             'status': 'inuse',
             'metadata': {}
         }
