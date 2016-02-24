@@ -1,6 +1,8 @@
 'use strict';
+
 var extend = require('gextend');
 var request = require('request');
+var debug = require('debug')('sensor:agent');
 
 module.exports.init = function(config, options){
 
@@ -13,6 +15,9 @@ module.exports.init = function(config, options){
     }
 
     config.url = (config.url + '').replace(/\/+$/, '') + '/' + config.payload.uuid;
+
+    debug('agent: Registering device with url %s', config.url);
+
     var accessToken = config.token;
 
     var payload = {
@@ -23,5 +28,6 @@ module.exports.init = function(config, options){
 
     request.post(payload, function(err, httResponse, body){
         if(err) console.error('ERROR', err);
+        debug('agent: device registration payload sent.');
     });
 };
