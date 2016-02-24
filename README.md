@@ -27,31 +27,33 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 
 ### Environment variables
 
-* NODE_RPI_ID
-* NODE_RPI_GPIO
-* NODE_RPI_ARCH
-* NODE_RPI_REPL
+* NODE_RPI_ID: Instance name. We actually use the Raspberry Pi's `hostname`
+* NODE_RPI_GPIO: GPIO pin j5 connects to.
+* NODE_RPI_ARCH: Defaults to `arm`. Used to check if we need to run mock mode.
+* NODE_RPI_REPL: Prevent j5 repel. You need to explicitly disable it. If its running will prevent docker from lifting ok.
 
-* NODE_INFLUX_USER
-* NODE_INFLUX_PASS
-* NODE_INFLUX_HOST
-* NODE_INFLUX_PORT
-* NODE_INFLUX_DATABASE
-* NODE_INFLUX_PROTOCOL
-* NODE_INFLUX_SERIES_NAME
-* NODE_INFLUX_DRYRUN
+* NODE_INFLUX_USER: InfluxDB user
+* NODE_INFLUX_PASS: InfluxDB pass
+* NODE_INFLUX_HOST: InfluxDB host
+* NODE_INFLUX_PORT: InfluxDB port
+* NODE_INFLUX_DATABASE: InfluxDB database name. 
+* NODE_INFLUX_PROTOCOL: `https` or `http`
+* NODE_INFLUX_SERIES_NAME: Defaults to `phonebooth`
+* NODE_INFLUX_DRYRUN: It `true` we do not send payloads to DB.
 
-* NODE_APP_PORT
-* NODE_APP_TYPE
-* NODE_APP_FLOOR
-* NODE_APP_BUILDING
+* NODE_APP_PORT: Express port
+* NODE_APP_TYPE: Metadata information
+* NODE_APP_FLOOR: Where is deployed [1]
+* NODE_APP_BUILDING: Where is deployed [1]
 
-* NODE_DEVICE_UUID
+[1] This should be either merged and passed as a `NODE_APP_METADATA` string or replaced by a `NODE_APP_LOCATION_UUID`.
 
-* NODE_AGENT_TOKEN
-* NODE_AGENT_ENDPOINT
-* NODE_AGENT_METADATA
-* NODE_DEVICE_TYPE_NAME
+* NODE_DEVICE_UUID: If not present the app will generate a `UUID` once, and then use the same one- duration of `docker` container.
+
+* NODE_AGENT_TOKEN: OAuth token for remote agent
+* NODE_AGENT_ENDPOINT: Registration endpoint for agent.
+* NODE_AGENT_METADATA: Registration metadata payload data. We use this to inject data from the host into the container.
+* NODE_DEVICE_TYPE_NAME: Currently we need this for `manegerie`...
 
 Note on environment variables, if you add them to the Dockerfile, it seems to slow down the build process as it has to make a new layer per env var(?!)
 
