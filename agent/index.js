@@ -16,7 +16,7 @@ module.exports.init = function(config, options){
 
     config.url = (config.url + '').replace(/\/+$/, '') + '/' + config.payload.uuid;
 
-    debug('agent: Registering device with url %s', config.url);
+    console.log('agent: Registering device with url %s', config.url);
 
     var accessToken = config.token;
 
@@ -28,6 +28,6 @@ module.exports.init = function(config, options){
 
     request.post(payload, function(err, httResponse, body){
         if(err) console.error('ERROR', err);
-        debug('agent: device registration payload sent.');
+        console.log('agent: device registration payload sent.');
     });
 };
