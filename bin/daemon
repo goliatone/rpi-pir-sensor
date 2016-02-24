@@ -7,19 +7,32 @@ var reporter = require('../reporter');
 var server = require('../server').createServer();
 var agent = require('../agent');
 
+var extend = require('gextend');
+
 /*
  * Initialize menagerie agent.
  */
 agent.init(config.agent, config);
 
+/*
+ * Initialize reporter.
+ * Reporter sends sensor data to
+ * different endpoints. In this
+ * case, InlfuxDB.
+ */
 reporter.init(config.reporter);
 
 
 console.log('config');
 console.log(JSON.stringify(config, null, 4));
 
-//Server: We should be able to change configuration on
-//GUI/Client and then reboot app.
+/*
+ * We run a small server instance that
+ * provides a GUI.
+ *
+ * TODO: Ideally we would like to have this
+ * as a separate process (docker image?)
+ */
 server.start().on('server.ready', function(){
     /*
      * Sensor uses app to publish events.
@@ -27,6 +40,10 @@ server.start().on('server.ready', function(){
     sensor.init(server, config.sensor);
 });
 
+/*
+ * We register an event listener for sensor
+ * events.
+ */
 server.on('sensor.event', function(event){
     console.warn('sensor.event', event);
 
@@ -42,8 +59,6 @@ server.on('sensor.event', function(event){
     reporter.buffer(payload);
 });
 
-
-var extend = require('gextend');
 function getPayload(values, tags, defaults){
     var out = extend({}, defaults, tags);
     return [values, out];
