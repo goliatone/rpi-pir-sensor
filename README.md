@@ -1,6 +1,17 @@
 ### Raspberry Pi PIR 
 Simple PoC to collect motion data using Raspberry Pi's.
 
+Flow:
+
+- Develop in your computer.
+- Have RPi with `git` and `docker` installed.
+- Build `github.com/goliatone/rpi-pir-sensor` in your pi.
+- Push image to docker hub.
+
+Currently we are using ssh remote commands to deploy new sensor instances. In the future we want to have a `docker` cluster where you can remotely push 
+
+## Deployment
+
 ## Development
 
 You can use `envset` to manage a development environment local to your [Mac] computer. For production, if you don't want to install node in the Pi to run `envset` you can export environmental variables in a script before running your docker instance.
@@ -19,11 +30,12 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 * NODE_RPI_ID
 * NODE_RPI_GPIO
 * NODE_RPI_ARCH
+* NODE_RPI_REPL
 
-* NODE_INFLUX_HOST
-* *NODE_INFLUX_PORT
 * NODE_INFLUX_USER
 * NODE_INFLUX_PASS
+* NODE_INFLUX_HOST
+* NODE_INFLUX_PORT
 * NODE_INFLUX_DATABASE
 * NODE_INFLUX_PROTOCOL
 * NODE_INFLUX_SERIES_NAME
@@ -34,7 +46,12 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 * NODE_APP_FLOOR
 * NODE_APP_BUILDING
 
-* NODE_DEVICE_UUID 
+* NODE_DEVICE_UUID
+
+* NODE_AGENT_TOKEN
+* NODE_AGENT_ENDPOINT
+* NODE_AGENT_METADATA
+* NODE_DEVICE_TYPE_NAME
 
 Note on environment variables, if you add them to the Dockerfile, it seems to slow down the build process as it has to make a new layer per env var(?!)
 
@@ -46,6 +63,24 @@ To open a shell session:
 ```
 docker run -t -i --rm --privileged --cap-add=ALL -v /lib/modules:/lib/modules -v /dev:/dev rpi-pir-sensor /bin/bash
 ```
+
+
+#### OPS
+The `ops` directory contains a set of commands to interact with docker. 
+
+We build a docker image on a raspberry pi and push the image to docker hub. In order to do so, we need to have credentials on the pi. You can simply `docker login` in your computer:
+
+```
+$ docker login --password=Password --username=Username
+```
+
+Then you can copy the generated token and place it in the raspberry pi. The token is found at `~/.docker/config.json `. You should place it on the same path.
+
+The `docker-push` will send a built image to a docker hub repository.
+
+<!--
+`https://hub.docker.com/r/goliatone/rpi-pir-sensor/`
+-->
 
 ### InfluxDB
 
@@ -108,6 +143,7 @@ To get MAC address:
 ```
 cat /sys/class/net/eth0/address
 ```
+
 
 ### TODO
 
