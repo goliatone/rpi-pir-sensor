@@ -63,7 +63,7 @@ docker run -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --pri
 
 To open a shell session:
 ```
-docker run -t -i --rm --privileged --cap-add=ALL -v /lib/modules:/lib/modules -v /dev:/dev rpi-pir-sensor /bin/bash
+docker run -t -i --rm --privileged --cap-add=ALL -v /lib/modules:/lib/modules -v /dev:/dev goliatone/rpi-pir-sensor /bin/bash
 ```
 
 
