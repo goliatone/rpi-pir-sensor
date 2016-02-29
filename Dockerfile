@@ -8,10 +8,15 @@ RUN \
     cd wiringPi && ./build && \
     mkdir -p /usr/src/app
 
+
+#use changes to package.json to force Docker to not use 
+#cache. Use docker build --no-cache to force npm install.
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install --production
+RUN cp -a /tmp/node_modules /usr/src/app/
+
 WORKDIR /usr/src/app
 
-COPY package.json /usr/src/app/
-RUN npm install --production
 COPY . /usr/src/app
 
 EXPOSE 3000
