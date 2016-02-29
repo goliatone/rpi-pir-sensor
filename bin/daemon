@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 'use strict';
 
-var sensor = require('../sensor');
 var config = require('../config');
+var sensor = require('../sensor');
+var logger = require('../logger');
 var reporter = require('../reporter');
 var server = require('../server').createServer();
 var agent = require('../agent');
 
 var extend = require('gextend');
+
+/*
+ * Initialize logger
+ */
+config.logger = logger.init(config.logger, config);
 
 /*
  * Initialize menagerie agent.
@@ -63,3 +69,8 @@ function getPayload(values, tags, defaults){
     var out = extend({}, defaults, tags);
     return [values, out];
 }
+
+
+setTimeout(function(){
+    throw new Error('testing error handling');
+},2000);
