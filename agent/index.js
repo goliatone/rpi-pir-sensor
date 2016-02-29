@@ -28,6 +28,6 @@ module.exports.init = function(config, options){
 
     request.post(payload, function(err, resp, body){
         if(err) console.error('ERROR', err);
-        console.log('agent: device registration payload sent.', body, resp.statusCode, resp.headers);
+        console.log('agent: device registration payload sent.', body, resp && resp.statusCode, resp && resp.headers);
     });
 };
