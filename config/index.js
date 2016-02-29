@@ -1,6 +1,6 @@
 'use strict';
 var uuidGenerator = require('singleton-uuid');
-
+var winston = require('winston');
 //We have GUI to modify some options. We should
 //be able to save those and load those values on
 //server restarts.
@@ -50,5 +50,26 @@ module.exports = {
             type: process.env.NODE_APP_TYPE || 'phonebooth'
         }
     },
-    app: {}
+    app: {},
+    logger: {
+        //level: process.NODE_ENV === 'development' ? 'error' : 'warn',
+        transports:[
+            new (winston.transports.Console)({
+                formatter: function(options) {
+                    var message = new Date().toLocaleString() + ' ';
+                    message += options.message || '';
+                    message += (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : '');
+                    return message;
+                }
+            }),
+            new (require('winston-daily-rotate-file'))({
+                name: 'error-file',
+                filename: 'phonebooth-sensor-error.log',
+                level: 'error',
+                handleExceptions: true,
+                humanReadableUnhandledException: true,
+                exitOnError: true //default value
+            })
+        ]
+    }
 };
