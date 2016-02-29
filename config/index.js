@@ -55,12 +55,18 @@ module.exports = {
         //level: process.NODE_ENV === 'development' ? 'error' : 'warn',
         transports:[
             new (winston.transports.Console)({
-                formatter: function(options) {
+                handleExceptions: true,
+                prettyPrint: true,
+                silent: false,
+                timestamp: true,
+                colorize: true,
+                json: false,
+                /*formatter: function(options) {
                     var message = new Date().toLocaleString() + ' ';
                     message += options.message || '';
                     message += (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : '');
                     return message;
-                }
+                }*/
             }),
             new (require('winston-daily-rotate-file'))({
                 name: 'error-file',
@@ -68,6 +74,8 @@ module.exports = {
                 level: 'error',
                 handleExceptions: true,
                 humanReadableUnhandledException: true,
+                maxsize: 1024000,
+                maxFiles: 10,
                 exitOnError: true //default value
             })
         ]
