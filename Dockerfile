@@ -5,12 +5,11 @@ MAINTAINER goliatone <hello@goliatone.com>
 RUN \
     apt-get update && apt-get install -y libi2c-dev git  && \
     git clone https://github.com/bryan-m-hughes/wiringPi && \
+    mkdir -p /boot && cp ./scripts/config.txt /boot/config.txt && \
     cd wiringPi && ./build && \
     mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
-
-RUN mkdir -p /boot && cp /usr/src/app/scripts/config.txt /boot/config.txt
 
 #use changes to package.json to force Docker to not use 
 #cache. Use docker build --no-cache to force npm install.
