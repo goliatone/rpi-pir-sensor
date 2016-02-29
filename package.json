@@ -28,6 +28,8 @@
     "raspi-io": "^5.2.0",
     "request": "^2.69.0",
     "serve-favicon": "~2.2.0",
-    "singleton-uuid": "^0.1.0"
+    "singleton-uuid": "^0.1.0",
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.0.1"
   }
 }
