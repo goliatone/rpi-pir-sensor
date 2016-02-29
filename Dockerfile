@@ -10,7 +10,7 @@ RUN \
 
 WORKDIR /usr/src/app
 
-RUN mkdir -p /boot && cp ./scripts/config.txt /boot/config.txt
+RUN mkdir -p /boot && cp /usr/src/app/scripts/config.txt /boot/config.txt
 
 #use changes to package.json to force Docker to not use 
 #cache. Use docker build --no-cache to force npm install.
