@@ -69,8 +69,3 @@ function getPayload(values, tags, defaults){
     var out = extend({}, defaults, tags);
     return [values, out];
 }
-
-
-setTimeout(function(){
-    throw new Error('testing error handling');
-},2000);
