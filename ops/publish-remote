@@ -9,4 +9,4 @@ echo "docker build goliatone/rpi-pir-sensor..."
 docker build --rm -t goliatone/rpi-pir-sensor .
 
 echo "docker push goliatone/rpi-pir-sensor..."
-docker push goliatone/rpi-pir-sensor
+docker push goliatone/rpi-pir-sensor:latest
