@@ -6,6 +6,8 @@
 # relative to that :)
 #################################
 
+# If we have any running containers wiringPi will not complete npm i.
+docker stop $(docker ps -a -q)
 
 #Include our env var file, we define all our environment variables there
 docker build --rm -t goliatone/rpi-pir-sensor .
