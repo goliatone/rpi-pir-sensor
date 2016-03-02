@@ -4,7 +4,7 @@ echo "Pull goliatone/rpi-pir-sensor..."
 docker pull goliatone/rpi-pir-sensor:latest
 
 echo "docker stop wee-sensor..."
-! docker stop wee-sensor
+! docker stop $(docker ps)
 
 echo "docker remove old images..."
 ! docker rm -v $(docker ps -a -q -f status=exited)
