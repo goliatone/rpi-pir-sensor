@@ -3,8 +3,15 @@
 echo "Pull goliatone/rpi-pir-sensor..."
 docker pull goliatone/rpi-pir-sensor:latest
 
-echo "docker stop wee-sensor..."
-! docker stop $(docker ps)
+echo "docker stop containers..."
+
+CONTAINERS=$(docker ps -q)
+
+if [ -n "$CONTAINERS" ]; then
+    ! docker stop $CONTAINERS
+else
+    echo "No containers to remove."
+fi
 
 echo "docker remove old images..."
 ! docker rm -v $(docker ps -a -q -f status=exited)
@@ -12,5 +19,5 @@ echo "docker remove old images..."
 echo "docker remove dangling images..."
 ! docker rmi $(docker images -f "dangling=true" -q)
 
-echo "docker run..."
+echo "\ndocker run..."
 docker run --name=wee-sensor --env-file .env -v /dev/mem:/dev/mem -v /lib/modules:/lib/modules --cap-add=ALL --privileged -p 3000:3000 --restart=always -d goliatone/rpi-pir-sensor:latest
