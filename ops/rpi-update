@@ -16,6 +16,11 @@ program
     .option('-h, --hostname <hostname>', 'Instance hostname name')
     .parse(process.argv);
 
+if(!program.environment || !program.hostname){
+    console.log('\n  Missing required arguments.');
+    program.outputHelp();
+    process.exit(0);
+}
 
 var context = {
     filepath: './',
