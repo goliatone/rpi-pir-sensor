@@ -22,16 +22,17 @@ var context = {
     filename: '.env-' + program.hostname,
     scripts: __dirname,
     hostname: program.hostname,
-    environment: program.environment
+    environment: program.environment,
+    envfile: require('path').join( __dirname, 'env-files', '.env-' + program.hostname)
 };
 
 //console.log(context)
 
 var tpls = [
     //create env file based on environment and instance
-    'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv {{scripts}}/templates/env.tpl > {{scripts}}/env-files/{{filename}}',
+    'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv {{scripts}}/templates/env.tpl > {{envfile}}',
     //copy env file to destination rpi
-    'time scp {{scripts}}/env-files/{{filename}} root@{{hostname}}.local:/root/.env',
+    'time scp {{envfile}} root@{{hostname}}.local:/root/.env',
     //update remote instance
     'time cat {{scripts}}/update-instance | ssh root@{{hostname}}.local /bin/bash'
 ];
@@ -44,8 +45,7 @@ tpls.map(function(tpl){
 
 //TODO: We need to capture output in a sane way
 cmds.map(function(cmd){
-    var out = exec(cmd);
-    console.log(out.toString());
+    var out = exec(cmd, {stdio: [0, 1, 2]});
 });
 
 ////////////////////////////////////////////////////
