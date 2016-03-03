@@ -1,0 +1,109 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var program = require('commander');
+var pkg = require('../package.json');
+
+var exec = require('child_process').execSync;
+
+//we expect two CLI arguments:
+//a) environment type
+//b) instance name
+program
+    .version(pkg.version)
+    .option('-e, --environment <environment>', 'Environment to pull variables from')
+    .option('-h, --hostname <hostname>', 'Instance hostname name')
+    .parse(process.argv);
+
+
+var context = {
+    filepath: './',
+    filename: '.env-' + program.hostname,
+    scripts: __dirname,
+    hostname: program.hostname,
+    environment: program.environment
+};
+
+//console.log(context)
+
+var tpls = [
+    //create env file based on environment and instance
+    'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv {{scripts}}/templates/env.tpl > {{scripts}}/env-files/{{filename}}',
+    //copy env file to destination rpi
+    'time scp {{scripts}}/env-files/{{filename}} root@{{hostname}}.local:/root/.env',
+    //update remote instance
+    'time cat {{scripts}}/update-instance | ssh root@{{hostname}}.local /bin/bash'
+];
+
+var cmds = [];
+tpls.map(function(tpl){
+    cmds.push(_template(tpl, context));
+});
+
+
+//TODO: We need to capture output in a sane way
+cmds.map(function(cmd){
+    var out = exec(cmd);
+    console.log(out.toString());
+});
+
+////////////////////////////////////////////////////
+//// Move to utils or something.
+////////////////////////////////////////////////////
+
+/**
+ * Parse query string into object.
+ * @param   {String|undefined} query String to parse
+ *                                   If undefined, location search
+ *                                   is used.
+ * @return  {Object}       Query string object.
+ * @private
+ */
+function _resolvePropertyChain(target, path, defaultValue) {
+    if (!target || !path) return defaultValue;
+    path = path.split('.');
+    // console.warn('path', path, target);
+    var l = path.length,
+        i = 0,
+        p = '';
+    for (; i < l; ++i) {
+        p = path[i];
+        if (target.hasOwnProperty(p)) target = target[p];
+        else return defaultValue;
+    }
+    return target;
+};
+
+/**
+ * Simplte string interpolation function.
+ * @param   {String} template
+ * @param   {Object} context
+ * @param   {String} otag     Open tag
+ * @param   {String} ctag     Close tag
+ * @return  {String}
+ * @private
+ */
+function _template(template, context, otag, ctag) {
+    if (!template) return '';
+    if (!context) return template;
+
+    otag = otag || '{{', ctag = ctag || '}}';
+
+    template = template.split('.').join('\\.');
+
+    function replaceTokens() {
+        var prop = arguments[1];
+        prop = prop.replace(/\\/g, '');
+        return _resolvePropertyChain(context, prop, otag + prop + ctag);
+    }
+
+    return template.replace(new RegExp(otag + '([^}\\r\\n]*)' + ctag, 'g'), replaceTokens)
+                   .replace(/\\./g, '.');
+};
+
+function _needsInterpolation(key, otag, ctag) {
+    otag = otag || '{{', ctag = ctag || '}}';
+    if (!key || typeof key !== 'string') return false;
+    return !!key.match(new RegExp(otag + '([^}\\r\\n]*)' + ctag, 'g'));
+};
