@@ -24,7 +24,7 @@ if(!program.environment || !program.hostname){
 
 var context = {
     filepath: './',
-    filename: '.env-' + program.hostname,
+    filename: '.' + program.hostname + '-env',
     scripts: __dirname,
     hostname: program.hostname,
     environment: program.environment,
