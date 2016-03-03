@@ -31,5 +31,8 @@
     "singleton-uuid": "^0.1.0",
     "winston": "^2.2.0",
     "winston-daily-rotate-file": "^1.0.1"
+  },
+  "devDependencies": {
+    "commander": "^2.9.0"
   }
 }
