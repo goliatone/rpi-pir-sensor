@@ -6,14 +6,18 @@ var debug = require('debug')('reporter');
 var client,
     buffer = [],
     bufferSize = 10,
-    seriesName;
-
+    seriesName,
+    logger = console;
+/*
+ * TODO: Make it emit error events.
+ */
 module.exports = {
-    init: function(opts){
+    init: function(opts, config){
         debug('Initialize reporter');
         client = influx(opts.db);
         bufferSize = opts.bufferSize || 10;
         seriesName = opts.seriesName || 'phonebooth';
+        if(config.logger) logger = config.logger;
     },
     buffer: function(data){
         if(!client) return debug('buffering data, client not ready');
@@ -29,7 +33,7 @@ module.exports = {
         }
         debug('Reporter: store...');
         client.writePoints(seriesName, points, function(err, res){
-            if(err) console.error('Reporter Error: writePoints', err);
+            if(err) logger.error('Reporter Error: writePoints', err);
             else debug('Reporter: store OK', res);
         });
     },
@@ -39,7 +43,7 @@ module.exports = {
         }
 
         client.writePoint(seriesName, values, tags, function(err, res){
-            if(err) console.error('Reporter Error: writePoint', err);
+            if(err) logger.error('Reporter Error: writePoint', err);
             else debug('Reporter: store OK', res);
         });
     }
