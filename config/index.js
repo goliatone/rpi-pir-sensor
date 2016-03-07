@@ -1,6 +1,8 @@
 'use strict';
 var uuidGenerator = require('singleton-uuid');
 var winston = require('winston');
+var Honey = require('winston-honeybadger');
+
 //We have GUI to modify some options. We should
 //be able to save those and load those values on
 //server restarts.
@@ -41,8 +43,10 @@ var transports = [
 ];
 
 //Only include honey if we have the key.
-if(process.NODE_HONEYBADGER_KEY){
-    transports.push(new (winston.transports.Honeybadger)({ apiKey: process.NODE_HONEYBADGER_KEY}))
+if(process.env.NODE_HONEYBADGER_KEY){
+    transports.push(
+        new Honey({ apiKey: process.env.NODE_HONEYBADGER_KEY})
+        );
 }
 
 module.exports = {
