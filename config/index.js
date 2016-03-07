@@ -7,6 +7,12 @@ var winston = require('winston');
 //TODO: We should load cached version of updated props.
 //TODO: We should be getting config from menagerie
 
+
+/*
+ * Winston:
+ * We use the Console and daily rotate file transports
+ * and if provided, we also use Honeybadger.
+ */
 var transports = [
     new (winston.transports.Console)({
         handleExceptions: true,
