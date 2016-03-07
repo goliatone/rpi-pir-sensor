@@ -104,3 +104,4 @@ node_modules
 .envset
 .env
 .*env
+ops/env-files/*
