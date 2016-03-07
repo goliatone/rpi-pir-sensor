@@ -15,6 +15,8 @@ program
     .version(pkg.version)
     .option('-e, --environment <environment>', 'Environment to pull variables from')
     .option('-h, --hostname <hostname>', 'Instance hostname name')
+    .option('-p, --pattern <pattern>', 'If we do multiple instances, the naming pattern.')
+    .option('-t, --total <total>', 'Number of instances to do in series')
     .parse(process.argv);
 
 if(!program.environment || !program.hostname){
@@ -23,34 +25,44 @@ if(!program.environment || !program.hostname){
     process.exit(0);
 }
 
-var context = {
-    filepath: './',
-    filename: '.' + program.hostname + '-env',
-    scripts: __dirname,
-    hostname: program.hostname,
-    environment: program.environment,
-    envfile: require('path').join( __dirname, 'env-files', '.env-' + program.hostname)
-};
-
-//console.log(context)
-
-var tpls = [
-    //create env file based on environment and instance
-    'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv {{scripts}}/templates/env.tpl > {{envfile}}',
-    //copy env file to destination rpi
-    'time scp {{envfile}} root@{{hostname}}.local:/root/.env',
-    //update remote instance
-    'time cat {{scripts}}/update-instance | ssh root@{{hostname}}.local /bin/bash'
-];
-
-var cmds = [];
-tpls.map(function(tpl){
-    cmds.push(template(tpl, context));
-});
+deployInstance(program.hostname, program.environment, __dirname);
 
 
-//TODO: We need to capture output in a sane way
-cmds.map(function(cmd){
-    var out = exec(cmd, {stdio: [0, 1, 2]});
-});
 
+
+function deployInstance(hostname, environment, dir){
+    return new Promise(function(resolve, reject){
+        var context = {
+            filepath: './',
+            filename: '.' + hostname + '-env',
+            scripts: dir,
+            hostname: hostname,
+            environment: environment,
+            envfile: require('path').join( dir, 'env-files', '.env-' + hostname)
+        };
+
+        //console.log(context)
+
+        var tpls = [
+            //create env file based on environment and instance
+            'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv {{scripts}}/templates/env.tpl > {{envfile}}',
+            //copy env file to destination rpi
+            'time scp {{envfile}} root@{{hostname}}.local:/root/.env',
+            //update remote instance
+            'time cat {{scripts}}/update-instance | ssh root@{{hostname}}.local /bin/bash'
+        ];
+
+        var cmds = [];
+        tpls.map(function(tpl){
+            cmds.push(template(tpl, context));
+        });
+
+
+        //TODO: We need to capture output in a sane way
+        cmds.map(function(cmd){
+            var out = exec(cmd, {stdio: [0, 1, 2]});
+        });
+
+        resolve(true);
+    });
+}
