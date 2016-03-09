@@ -17,7 +17,7 @@ program
     .version(pkg.version)
     .option('-e, --environment <environment>', 'Environment to pull variables from')
     .option('-h, --hostname <hostname>', 'Instance hostname name')
-    .option('-C, --context-path <context-path>', 'Context path to look for a hostname .json file with extra arguments for the template', false)
+    .option('-C, --context-path <context-path>', 'We can pass either a path to a json file or a path to a directory with json files named after the hostname.', false)
     .option('-d, --dry-run', 'Just display cmds but do not run them')
     .parse(process.argv);
 
