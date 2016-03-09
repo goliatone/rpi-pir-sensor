@@ -105,3 +105,4 @@ node_modules
 .env
 .*env
 ops/env-files/*
+ops/context/*.json
