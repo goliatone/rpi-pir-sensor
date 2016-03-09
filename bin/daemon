@@ -26,7 +26,7 @@ agent.init(config.agent, config);
  * different endpoints. In this
  * case, InlfuxDB.
  */
-reporter.init(config.reporter);
+reporter.init(config.reporter, config);
 
 
 console.log('config');

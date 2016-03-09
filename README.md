@@ -55,6 +55,8 @@ The project runs on the Pi using [Hypriot's][1] docker image.
 * NODE_AGENT_METADATA: Registration metadata payload data. We use this to inject data from the host into the container.
 * NODE_DEVICE_TYPE_NAME: Currently we need this for `manegerie`...
 
+* NODE_HONEYBADGER_KEY: honeybadger secret key
+
 Note on environment variables, if you add them to the Dockerfile, it seems to slow down the build process as it has to make a new layer per env var(?!)
 
 ```
@@ -147,6 +149,14 @@ cat /sys/class/net/eth0/address
 ```
 
 
+### Docker and RPi
+
+You can use the [hypriot][hypriot] [flash tool][hft] to burn a version of Debian for RPi with Docker support.
+
+```
+$ flash --hostname wee-8 --ssid <ssid> --password <password>
+```
+
 ### TODO
 
 - [ ] Persist GUI config changes
@@ -159,3 +169,13 @@ cat /sys/class/net/eth0/address
 
 
 [1]: http://blog.hypriot.com
+
+
+
+### ISSUES
+Pi seems to loose connection. Ensure we have `auto eth0`
+http://raspberrypi.stackexchange.com/questions/19963/why-the-raspberry-pi-loses-the-ethernet-connection
+
+
+[hft]:https://github.com/hypriot/flash
+[hypriot]:http://blog.hypriot.com/downloads/
