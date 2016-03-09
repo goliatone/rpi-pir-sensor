@@ -5,6 +5,16 @@ cd ~/CODE/rpi-pir-sensor
 echo "Updating local repository..."
 git pull
 
+
+CONTAINERS=$(docker ps -q)
+
+if [ -n "$CONTAINERS" ]; then
+    echo "Stoping running containers $CONTAINERS"
+    ! docker stop $CONTAINERS
+else
+    echo "No containers to remove."
+fi
+
 echo "docker build goliatone/rpi-pir-sensor..."
 docker build --rm -t goliatone/rpi-pir-sensor .
 
