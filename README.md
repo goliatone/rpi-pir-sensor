@@ -149,6 +149,14 @@ cat /sys/class/net/eth0/address
 ```
 
 
+### Docker and RPi
+
+You can use the [hypriot][hypriot] [flash tool][hft] to burn a version of Debian for RPi with Docker support.
+
+```
+$ flash --hostname wee-8 --ssid <ssid> --password <password>
+```
+
 ### TODO
 
 - [ ] Persist GUI config changes
@@ -167,3 +175,7 @@ cat /sys/class/net/eth0/address
 ### ISSUES
 Pi seems to loose connection. Ensure we have `auto eth0`
 http://raspberrypi.stackexchange.com/questions/19963/why-the-raspberry-pi-loses-the-ethernet-connection
+
+
+[hft]:https://github.com/hypriot/flash
+[hypriot]:http://blog.hypriot.com/downloads/
