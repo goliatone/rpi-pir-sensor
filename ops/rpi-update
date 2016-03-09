@@ -51,9 +51,9 @@ var tpls = [
     //create env file based on environment and instance
     'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv -c={{contextpath}} {{scripts}}/templates/env.tpl > {{envfile}}',
     //copy env file to destination rpi
-    //'time scp {{envfile}} root@{{hostname}}.local:/root/.env',
+    'time scp {{envfile}} root@{{hostname}}.local:/root/.env',
     //update remote instance
-    //'time cat {{scripts}}/update-instance | ssh root@{{hostname}}.local /bin/bash'
+    'time cat {{scripts}}/update-instance | ssh root@{{hostname}}.local /bin/bash'
 ];
 
 var cmds = [];
