@@ -19,6 +19,7 @@ program
     .option('-h, --hostname <hostname>', 'Instance hostname name')
     .option('-C, --context-path <context-path>', 'We can pass either a path to a json file or a path to a directory with json files named after the hostname.', false)
     .option('-d, --dry-run', 'Just display cmds but do not run them')
+    .option('-i, --ip, <ip>', 'IP of RPi instance')
     .parse(process.argv);
 
 if(!program.environment || !program.hostname){
@@ -39,6 +40,7 @@ var context = {
     filepath: './',
     filename: '.' + program.hostname + '-env',
     scripts: __dirname,
+    address: getHostname(program.hostname, program.ip),
     hostname: program.hostname,
     environment: program.environment,
     contextpath: contextpath,
@@ -51,9 +53,9 @@ var tpls = [
     //create env file based on environment and instance
     'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv -c={{contextpath}} {{scripts}}/templates/env.tpl > {{envfile}}',
     //copy env file to destination rpi
-    'time scp {{envfile}} root@{{hostname}}.local:/root/.env',
+    'time scp {{envfile}} root@{{address}}:/root/.env',
     //update remote instance
-    'time cat {{scripts}}/update-instance | ssh root@{{hostname}}.local /bin/bash'
+    'time cat {{scripts}}/update-instance | ssh root@{{address}} /bin/bash'
 ];
 
 var cmds = [];
@@ -67,3 +69,9 @@ cmds.map(function(cmd){
     if(program.dryRun) return console.log(cmd);
     var out = exec(cmd, {stdio: [0, 1, 2]});
 });
+
+
+function getHostname(hostname, ip){
+    if(ip) return ip;
+    return hostname + '.local';
+}
