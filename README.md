@@ -86,6 +86,14 @@ The `docker-push` will send a built image to a docker hub repository.
 `https://hub.docker.com/r/goliatone/rpi-pir-sensor/`
 -->
 
+##### Update RPi 
+
+To update a deployed RPi:
+
+```
+./ops/rpi-update --environment=production --context-path=./ops/context --hostname=wee-4
+```
+
 ### InfluxDB
 
 Create DB:
