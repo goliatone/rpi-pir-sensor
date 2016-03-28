@@ -33,7 +33,7 @@ module.exports = {
         }
         debug('Reporter: store...');
         client.writePoints(seriesName, points, function(err, res){
-            if(err) logger.error('Reporter Error: writePoints', err);
+            if(err) logger.error('Reporter Error: writePoints ' + err.message, err.stack ? err.stack : err);
             else debug('Reporter: store OK', res);
         });
     },
@@ -43,7 +43,7 @@ module.exports = {
         }
 
         client.writePoint(seriesName, values, tags, function(err, res){
-            if(err) logger.error('Reporter Error: writePoint', err);
+            if(err) logger.error('Reporter Error: writePoint ' + err.message, err.stack ? err.stack : err);
             else debug('Reporter: store OK', res);
         });
     }
