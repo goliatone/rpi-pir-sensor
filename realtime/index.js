@@ -10,6 +10,7 @@ module.exports = function(emitter, config){
         console.log('===> AMQP client CONNECTED');
         emitter.on('occupancy.change', function(data){
             console.log('occupancy: publish event');
+            //TODO: we should add building, and sensor id to the topic
             ascoltatore.publish('occupancy/change', data);
         });
     });
