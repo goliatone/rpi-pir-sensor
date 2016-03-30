@@ -52,7 +52,7 @@ server.start().on('server.ready', function(){
  * events.
  */
 server.on('sensor.event', function(event){
-    console.warn('sensor.event', event);
+    // console.warn('sensor.event', event);
 
     //We could just pass through the event?
     var payload = getPayload({
@@ -68,6 +68,9 @@ server.on('sensor.event', function(event){
 
 
 occupancy.init(config.occupancy, config);
+occupancy.onChange(function(value){
+    console.log('on change', value);
+});
 
 /*
  * Register event listener for sensor events
