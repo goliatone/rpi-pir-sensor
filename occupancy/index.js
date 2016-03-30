@@ -12,10 +12,14 @@ module.exports.init = function(options, config){
 
 module.exports.update = function(event){
 
-    if(event.value === 1) return check(1);
+    if(event.value === 1){
+        if(_occupancy === 1) return;
+        notifyChange(1);
+        resetOccupancy();
+        return;
+    }
 
-    _occupancy = event.value;
-
+    notifyChange(0);
     trackTime();
 };
 
@@ -29,14 +33,15 @@ function resetOccupancy(){
 }
 
 function trackTime(force){
-    if(_timeoutId && !force) return;
+    if(_timeoutId && !force) return console.log('exit');
     resetOccupancy();
     _timeoutId = setTimeout(check.bind(null, _occupancy), _timeout);
-    console.log('set timeout', _timeoutId);
+    console.log('set timeout');
 }
 
 function check(value){
     console.log('check', value);
+    //Nothing to do here.
     if(value === _occupancy) return;
 
     notifyChange(value);
