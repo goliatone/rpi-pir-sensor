@@ -7,6 +7,7 @@ var logger = require('../logger');
 var reporter = require('../reporter');
 var server = require('../server').createServer();
 var agent = require('../agent');
+var occupancy = require('../occupancy');
 
 var extend = require('gextend');
 
@@ -64,6 +65,18 @@ server.on('sensor.event', function(event){
 
     reporter.buffer(payload);
 });
+
+
+occupancy.init(config.occupancy, config);
+
+/*
+ * Register event listener for sensor events
+ * and feed the occupancy driver
+ */
+server.on('sensor.event', function(event){
+    occupancy.update(event);
+});
+
 
 function getPayload(values, tags, defaults){
     var out = extend({}, defaults, tags);
