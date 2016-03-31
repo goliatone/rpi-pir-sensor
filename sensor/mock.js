@@ -12,9 +12,10 @@ module.exports = {
         console.log('MOCK ON!');
 
         setInterval(function(){
-            console.log('Timeout');
-
             var value = getPresence();
+
+            console.log('generate movement:', value);
+
             app.emit('sensor.event', {
                 id: opts.id,
                 value: value,
@@ -53,7 +54,7 @@ function weightedRandom(min, max, weight) {
 
 function generateMovements(){
     //generate short period of empty
-    var index = randomInt(5, 10);
+    var index = randomInt(31, 40);
 
     var empty = Array.apply(null, new Array(index));
     empty = empty.map(function(){
@@ -71,7 +72,9 @@ function generateMovements(){
         return weightedRandom(0, 100, 80) ? 1 : 0;
     });
 
-    return (([].concat(empty)).concat(busy)).concat(sparse);
+    var output = (([].concat(empty)).concat(busy)).concat(sparse);
+
+    return output.reverse();
 }
 
 function getPresence(){
