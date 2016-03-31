@@ -16,6 +16,8 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || process.env.NODE_APP_PORT || '3000');
 app.set('port', port);
 
+app.disable('x-powered-by');
+
 /**
  * Create HTTP server.
  */
