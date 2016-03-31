@@ -107,5 +107,8 @@ module.exports = {
         client: {
             url: process.env.NODE_AMQP_ENDPOINT
         }
+    },
+    occupancy:{
+        timeout: 5 * 60 * 1000 //5min
     }
 };
