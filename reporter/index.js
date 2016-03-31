@@ -10,6 +10,8 @@ var client,
     logger = console;
 /*
  * TODO: Make it emit error events.
+ * TODO: Should we hold on to failed request payloads
+ *       and establish a retry policy?
  */
 module.exports = {
     init: function(opts, config){
