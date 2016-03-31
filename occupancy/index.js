@@ -4,10 +4,10 @@ var _occupancy = 0;
 
 var _timeoutId = null;
 var _callback = null;
-var _timeout = 1 * 60 * 1000;
+var _timeout = 0.5 * 60 * 1000;
 
 module.exports.init = function(options, config){
-    //initialize occupancy brain
+    if(options.hasOwnProperty('timeout')) _timeout = options.timeout;
 };
 
 
