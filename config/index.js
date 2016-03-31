@@ -108,7 +108,12 @@ module.exports = {
             url: process.env.NODE_AMQP_ENDPOINT
         }
     },
-    occupancy:{
+    occupancy: {
+        /*
+         * How long, in milliseconds, needs a
+         * phone-booth to be empty in order to
+         * trigger an empty event?
+         */
         timeout: 5 * 60 * 1000 //5min
     }
 };
