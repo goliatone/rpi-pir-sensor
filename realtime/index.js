@@ -11,7 +11,12 @@ module.exports = function(emitter, config){
         emitter.on('occupancy.change', function(data){
             console.log('occupancy: publish event');
             //TODO: we should add building, and sensor id to the topic
-            ascoltatore.publish('occupancy/change', data);
+            ascoltatore.publish(buildTopic(data, config), data);
         });
     });
 };
+
+function buildTopic(data, config){
+    //TODO: include location and device info.
+    return 'occupancy/change';
+}
