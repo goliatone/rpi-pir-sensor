@@ -6,7 +6,7 @@
 # relative to that :)
 #################################
 # Update local source code
-git pull --quiet
+git pull --quiet --no-edit
 
 # If we have any running containers wiringPi will not complete npm i.
 docker stop $(docker ps -a -q)
