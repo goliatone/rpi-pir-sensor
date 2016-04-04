@@ -5,6 +5,7 @@
 # the src directory. Paths are
 # relative to that :)
 #################################
+# Update local source code
 git pull --quiet
 
 # If we have any running containers wiringPi will not complete npm i.
