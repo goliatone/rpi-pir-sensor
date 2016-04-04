@@ -85,10 +85,6 @@ The `docker-push` will send a built image to a docker hub repository.
 
 The `docker-publish` script will build and push the built image to a docker hub repository.
 
-<!--
-`https://hub.docker.com/r/goliatone/rpi-pir-sensor/`
--->
-
 ##### Update RPi 
 
 To update a deployed RPi:
@@ -181,7 +177,9 @@ $ flash --hostname wee-8 --ssid <ssid> --password <password>
 
 [1]: http://blog.hypriot.com
 
-
+<!--
+`https://hub.docker.com/r/goliatone/rpi-pir-sensor/`
+-->
 
 ### ISSUES
 Pi seems to loose connection. Ensure we have `auto eth0`
