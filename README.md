@@ -11,6 +11,7 @@ Flow:
 Currently we are using ssh remote commands to deploy new sensor instances. In the future we want to have a `docker` cluster where you can remotely push 
 
 ## Deployment
+Working on integrating with RabbitHook and RabbitHook client.
 
 ## Development
 
