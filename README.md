@@ -82,6 +82,9 @@ Then you can copy the generated token and place it in the raspberry pi. The toke
 
 The `docker-push` will send a built image to a docker hub repository.
 
+
+The `docker-publish` script will build and push the built image to a docker hub repository.
+
 <!--
 `https://hub.docker.com/r/goliatone/rpi-pir-sensor/`
 -->
