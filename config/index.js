@@ -98,7 +98,7 @@ module.exports = {
         //level: process.NODE_ENV === 'development' ? 'error' : 'warn',
         transports: transports
     },
-    amqp: {
+    realtime: {
         type: 'amqp',
         json: true,
         amqp: require('amqp'),
