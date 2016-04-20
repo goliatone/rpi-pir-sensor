@@ -99,21 +99,26 @@ module.exports = {
         transports: transports
     },
     realtime: {
-        type: 'amqp',
-        json: true,
-        amqp: require('amqp'),
-        channel: 'webhook.github.*',
-        exchange: process.env.NODE_AMQP_EXCHANGE || ('wework.' + process.env.NODE_ENV),
-        client: {
-            url: process.env.NODE_AMQP_ENDPOINT
+        eventType: 'occupancy.change',
+        amqp:{
+            type: 'amqp',
+            json: true,
+            amqp: require('amqp'),
+            channel: 'webhook.github.*',
+            exchange: process.env.NODE_AMQP_EXCHANGE || ('wework.' + process.env.NODE_ENV),
+            client: {
+                url: process.env.NODE_AMQP_ENDPOINT
+            }
         }
     },
     occupancy: {
+        eventType: 'occupancy.change',
         /*
          * How long, in milliseconds, needs a
          * phone-booth to be empty in order to
          * trigger an empty event?
          */
-        timeout: 5 * 60 * 1000 //5min
+        timeout: 5 * 1000 //5s
+        // timeout: 5 * 60 * 1000 //5min
     }
 };
