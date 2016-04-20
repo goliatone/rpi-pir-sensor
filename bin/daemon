@@ -69,10 +69,7 @@ server.on('sensor.event', function(event){
 
 
 occupancy.init(config.occupancy, config);
-
-realtime(occupancy, config.realtime);
-
-occupancy.on('occupancy.change', function(value){
+occupancy.on(config.occupancy.eventType, function(value){
     console.log('handler on change', value);
 });
 
@@ -80,10 +77,13 @@ occupancy.on('occupancy.change', function(value){
  * Register event listener for sensor events
  * and feed the occupancy driver
  */
-server.on('sensor.event', function(event){
-    occupancy.update(event);
-});
+server.on('sensor.event', occupancy.update);
 
+/*
+ * Initialize our realtime component.
+ * It add an event listener
+ */
+realtime(occupancy, config.realtime);
 
 function getPayload(values, tags, defaults){
     var out = extend({}, defaults, tags);
