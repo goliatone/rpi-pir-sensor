@@ -6,9 +6,9 @@ var ascoltatori = require('ascoltatori');
 
 module.exports = function(emitter, config){
 
-    ascoltatori.build(config, function (ascoltatore) {
+    ascoltatori.build(config.amqp, function (ascoltatore) {
         console.log('===> AMQP client CONNECTED');
-        emitter.on('occupancy.change', function(data){
+        emitter.on(config.eventType, function(data){
             var topic = buildTopic(data, config);
             console.log('occupancy: publish event, topic:', topic);
             //TODO: we should add building, and sensor id to the topic
