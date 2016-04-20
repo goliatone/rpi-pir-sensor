@@ -14,7 +14,15 @@ WORKDIR /usr/src/app
 #use changes to package.json to force Docker to not use
 #cache. Use docker build --no-cache to force npm install.
 ADD package.json /tmp/package.json
-RUN cd /tmp && npm install --production
+
+##updatez
+RUN npm install -g npm
+RUN npm update
+
+RUN npm config set registry http://registry.npmjs.org/ && \
+    npm config set strict-ssl false
+
+RUN cd /tmp && npm install --production -ddd
 RUN cp -a /tmp/node_modules /usr/src/app/
 
 COPY . /usr/src/app
