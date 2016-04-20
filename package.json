@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node ./bin/www"
   },
+  "engines":{
+    "iojs": "~1.6.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/goliatone/rpi-pir-sensor.git"
