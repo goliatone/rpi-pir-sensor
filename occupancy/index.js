@@ -1,17 +1,27 @@
 'use strict';
 
+var _inherits = require('util').inherits;
+var EventEmitter = require('events').EventEmitter;
+
+
 var _occupancy = 0;
 
 var _timeoutId = null;
 var _callback = null;
 var _timeout = 0.5 * 60 * 1000;
 
-module.exports.init = function(options, config){
+
+
+function Occupancy(){
+    EventEmitter.call(this);
+}
+_inherits(Occupancy, EventEmitter);
+
+Occupancy.prototype.init = function(options, config){
     if(options.hasOwnProperty('timeout')) _timeout = options.timeout;
 };
 
-
-module.exports.update = function(event){
+Occupancy.prototype.update = function(event){
 
     if(event.value === 1){
         stopTimer();
@@ -22,10 +32,13 @@ module.exports.update = function(event){
     startTimer();
 };
 
-module.exports.onChange = function(cb){
+Occupancy.prototype.onChange = function(cb){
     _callback = cb;
 };
 
+
+var instance = new Occupancy();
+module.exports = instance;
 
 function stopTimer(){
     clearTimeout(_timeoutId);
@@ -46,6 +59,6 @@ function check(value){
 
 function notifyChange(value){
     _occupancy = value;
-    _callback(_occupancy);
     console.log('occupancy changed', _occupancy);
+    instance.emit('occupancy.change', _occupancy);
 }
