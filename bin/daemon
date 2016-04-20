@@ -8,6 +8,7 @@ var reporter = require('../reporter');
 var server = require('../server').createServer();
 var agent = require('../agent');
 var occupancy = require('../occupancy');
+var realtime = require('../realtime');
 
 var extend = require('gextend');
 
@@ -68,8 +69,11 @@ server.on('sensor.event', function(event){
 
 
 occupancy.init(config.occupancy, config);
-occupancy.onChange(function(value){
-    console.log('on change', value);
+
+realtime(occupancy, config.realtime);
+
+occupancy.on('occupancy.change', function(value){
+    console.log('handler on change', value);
 });
 
 /*
