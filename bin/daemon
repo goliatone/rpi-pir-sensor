@@ -69,8 +69,18 @@ server.on('sensor.event', function(event){
 
 
 occupancy.init(config.occupancy, config);
+
 occupancy.on(config.occupancy.eventType, function(value){
     console.log('handler on change', value);
+});
+
+occupancy.on('occupancy.status.request', function(){
+    var payload = {
+        event: 'motion' + (occupancy._occupancy ? 'start' : 'end'),
+        value: occupancy._occupancy,
+        time: Date.now()
+    };
+    occupancy.emit('occupancy.status.update', payload);
 });
 
 /*
