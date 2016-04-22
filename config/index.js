@@ -118,7 +118,7 @@ module.exports = {
          * phone-booth to be empty in order to
          * trigger an empty event?
          */
-        timeout: 5 * 1000 //5s
-        // timeout: 5 * 60 * 1000 //5min
+        timeout: process.env.NODE_ENV === 'development' ? 5 * 1000 : //5s
+                                              5 * 60 * 1000 //5min
     }
 };
