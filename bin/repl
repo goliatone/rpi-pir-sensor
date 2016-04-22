@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var repl = require('repl');
+var config = require('../config').realtime.amqp;
+var ascoltatori = require('ascoltatori');
+
+console.log('Creating AMQP repl');
+console.log(JSON.stringify(config, null, 4));
+
+ascoltatori.build(config, function (ascoltatore) {
+
+    ascoltatore.subscribe('occupancy/status/check', function(topic, data){
+        console.log('=> Occupancy status check', data);
+    });
+
+    ascoltatore.subscribe('occupancy/change', function(topic, data){
+        console.log('=> Occupancy status change', data);
+    });
+
+    /*
+     * we are being requested an update on our status.
+     */
+    var r = repl.start('amqp > ');
+    r.context.client = ascoltatore;
+
+    r.defineCommand('ping', {
+        help: 'Pings instance using amqp to get occupancy status',
+        action: function(topic){
+            topic = topic || 'occupancy/status';
+            console.log('Publish to', topic);
+            ascoltatore.publish(topic);
+            this.write('publish ' + topic);
+            this.displayPrompt();
+        }
+    });
+});
