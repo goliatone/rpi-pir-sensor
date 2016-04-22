@@ -7,39 +7,50 @@ var router = express.Router();
 var presence = 0;
 var movements = [];
 
-module.exports = {
-    init: function sensor$init(app, opts){
-        console.log('MOCK ON!');
+var Sensor = {};
 
-        setInterval(function(){
-            var value = getPresence();
+Sensor.init = function sensor$init(app, opts){
+    console.log('MOCK ON!');
 
-            console.log('generate movement:', value);
+    setInterval(function(){
+        var value = getPresence();
 
-            app.emit('sensor.event', {
-                id: opts.id,
-                value: value,
-                type: 'motion' + (value ? 'start' : 'end'),
-                time: Date.now()
-            });
-        }, 1000);
+        console.log('generate movement:', value);
 
-        //This does not work :/ figure out, move to routes and do
-        //there.
-        router.get('/sensor', function(req, res){
-            console.log('HERE!');
-            app.emit('sensor.event', {
-                type: 'motionmock',
-                id: opts.id,
-                value: 23,
-                time: Date.now()
-            });
-            res.send(200);
+        app.emit('sensor.event', {
+            id: opts.id,
+            value: value,
+            type: 'motion' + (value ? 'start' : 'end'),
+            time: Date.now()
         });
+    }, 1000);
 
-        app.express.use('/mock', router);
-    }
+    //This does not work :/ figure out, move to routes and do
+    //there.
+    router.get('/sensor', function(req, res){
+        console.log('HERE!');
+        app.emit('sensor.event', {
+            type: 'motionmock',
+            id: opts.id,
+            value: 23,
+            time: Date.now()
+        });
+        res.send(200);
+    });
+
+    app.express.use('/mock', router);
 };
+
+Sensor.getPayloadFromValue = function sensor$getPayloadFromValue(value){
+    return {
+        id: Sensor.options.id,
+        value: value,
+        type: 'motion' + (value ? 'start' : 'end'),
+        time: Date.now()
+    };
+};
+
+module.exports = Sensor;
 
 
 
@@ -72,7 +83,7 @@ function generateMovements(){
         return weightedRandom(0, 100, 80) ? 1 : 0;
     });
 
-    var output = (([].concat(empty)).concat(busy)).concat(sparse);
+    var output = ((([].concat(empty)).concat(busy)).concat(empty)).concat(sparse);
 
     return output.reverse();
 }
