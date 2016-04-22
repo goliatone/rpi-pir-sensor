@@ -19,34 +19,36 @@ var DEFAULTS = {
     gpio: 'GPIO21'
 };
 
-module.exports = {
-    init: function sensor$init(app, opts){
-        /*
-         * Initialize board. We will use
-         * config options to do the reporting
-         */
-        board.on('ready', function(){
-            var motion = new five.Motion(opts.gpio);
+var Sensor = {};
 
-            motion.on('motionstart', function(){
-                debug('- Motion start');
-                app.emit('sensor.event', {
-                    type:'motionstart',
-                    id: opts.id,
-                    value: 1,
-                    time: Date.now()
-                });
-            });
+Sensor.init = function sensor$init(app, opts){
+    Sensor.options = opts;
+    /*
+     * Initialize board. We will use
+     * config options to do the reporting
+     */
+    board.on('ready', function(){
+        var motion = new five.Motion(opts.gpio);
 
-            motion.on('motionend', function(){
-                debug('- Motion end');
-                app.emit('sensor.event', {
-                    type: 'motionend',
-                    id: opts.id,
-                    value: 0,
-                    time: Date.now()
-                });
-            });
+        motion.on('motionstart', function(){
+            debug('- Motion start');
+            app.emit('sensor.event', Sensor.getPayloadFromValue(1));
         });
-    }
+
+        motion.on('motionend', function(){
+            debug('- Motion end');
+            app.emit('sensor.event', Sensor.getPayloadFromValue(0));
+        });
+    });
 };
+
+Sensor.getPayloadFromValue = function sensor$getPayloadFromValue(value){
+    return {
+        id: Sensor.options.id,
+        value: value,
+        type: 'motion' + (value ? 'start' : 'end'),
+        time: Date.now()
+    };
+};
+
+module.exports = Sensor;
