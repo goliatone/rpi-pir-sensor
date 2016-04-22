@@ -42,6 +42,10 @@ Sensor.init = function sensor$init(app, opts){
     });
 };
 
+
+Sensor.registerRoutes = function(app){};
+
+
 Sensor.getPayloadFromValue = function sensor$getPayloadFromValue(value){
     return {
         id: Sensor.options.id,
