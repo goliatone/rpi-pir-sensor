@@ -90,8 +90,8 @@ occupancy.on(config.occupancy.eventType, function(value){
 });
 
 occupancy.on('occupancy.status.request', function(){
-    console.log('occupancy.status.request');
-    var payload = sensor.getPayloadFromValue(occupancy._occupancy);
+    var payload = sensor.getPayloadFromValue(occupancy.status);
+    console.log('occupancy.status.request', payload);
     occupancy.emit('occupancy.status.update', payload);
 });
 
