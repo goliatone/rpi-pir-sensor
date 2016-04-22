@@ -21,11 +21,11 @@ module.exports = function(emitter, config){
         ascoltatore.subscribe('occupancy.status', function(){
             //TODO: emitter should be a global dispatcher so we
             //can use wherever.
-            emitter.emit('occupancy.status.request');
             emitter.once('occupancy.status.update', function(data){
                 var topic = buildTopic(data, config);
                 ascoltatore.publish(topic, data);
             });
+            emitter.emit('occupancy.status.request');
         });
     });
 };
