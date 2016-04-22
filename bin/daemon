@@ -73,6 +73,16 @@ server.on('sensor.event', function(event){
 });
 
 
+/*
+ * This is kinda ugly. We should have a better way to
+ * do this. Basically we want to ensure that the events
+ * we send from amqp have the same format as the events
+ * sent by sensor.
+ * We should have a service that both occupancy and sensor
+ * use. For now, this will do :)
+ */
+occupancy.buildChangeEventPayload = sensor.getPayloadFromValue;
+
 occupancy.init(config.occupancy, config);
 
 occupancy.on(config.occupancy.eventType, function(value){
@@ -80,6 +90,7 @@ occupancy.on(config.occupancy.eventType, function(value){
 });
 
 occupancy.on('occupancy.status.request', function(){
+    console.log('occupancy.status.request');
     var payload = sensor.getPayloadFromValue(occupancy._occupancy);
     occupancy.emit('occupancy.status.update', payload);
 });
