@@ -5,7 +5,7 @@ var _inherits = require('util').inherits;
  * Module dependencies.
  */
 
-var app = require('./setup');
+var Setup = require('./setup');
 var debug = require('debug')('phonebooth-sensor:server');
 var http = require('http');
 
@@ -14,15 +14,8 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || process.env.NODE_APP_PORT || '3000');
-app.set('port', port);
 
-app.disable('x-powered-by');
 
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -33,12 +26,25 @@ function App(){
 _inherits(App, EventEmitter);
 
 App.prototype.start = function(opt){
-    server.listen(port);
-    server.on('error', this.onError.bind(this));
-    server.on('listening', this.onReady.bind(this));
 
-    this.express = app;
-    this.server = server;
+    this.express = Setup.getExpress();
+
+    this.emit('server.pre-middleware');
+    Setup.addMiddleware();
+    this.emit('server.post-middleware');
+
+    this.emit('server.pre-routes');
+    Setup.addRoutes();
+    this.emit('server.post-routes');
+
+    this.emit('server.pre-error-handlers');
+    Setup.addErrorHandlers();
+    this.emit('server.post-error-handlers');
+
+    this.server = Setup.createServer(port);
+
+    this.server.on('error', this.onError.bind(this));
+    this.server.on('listening', this.onReady.bind(this));
 
     return this;
 };
@@ -46,7 +52,7 @@ App.prototype.start = function(opt){
  * Event listener for HTTP server "listening" event.
  */
 App.prototype.onReady = function(){
-    var addr = server.address();
+    var addr = this.server.address();
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
@@ -65,7 +71,7 @@ App.prototype.onError = function(error){
 
     var bind = typeof port === 'string'
         ? 'Pipe ' + port
-        : 'Port ' + port
+        : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
