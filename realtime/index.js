@@ -21,17 +21,10 @@ module.exports = function(emitter, config){
          * we are being requested an update on our status.
          */
         ascoltatore.subscribe('occupancy/status', function(){
-            console.log('-------------------------------------');
-            console.log('-------------------------------------');
-            console.log('-------------------------------------');
-            console.log('-------------------------------------');
-            console.log('We have occupancy status request');
-            console.log('-------------------------------------');
-
             //TODO: emitter should be a global dispatcher so we
             //can use wherever.
             emitter.once('occupancy.status.update', function(data){
-                console.log('occupancy.status.update', data);
+                // console.log('occupancy.status.update', data);
                 var topic = buildTopic(data, config);
                 ascoltatore.publish(topic, data);
                 ascoltatore.publish('occupancy/status/check', data);
