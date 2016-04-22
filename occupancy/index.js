@@ -47,6 +47,10 @@ Occupancy.prototype.update = function(event){
     return this;
 };
 
+Occupancy.prototype.buildChangeEventPayload = function(value){
+    return value;
+};
+
 /*
  * Expose an "occupancy" getter in the prototype:
  * `instance.occupancy`
@@ -82,7 +86,7 @@ function notifyChange(value){
     var update = _occupancy !== value;
     _occupancy = value;
     console.log('==> occupancy changed, set occupancy:', _occupancy);
-    if(update) instance.emit(_eventType, _occupancy);
+    if(update) instance.emit(_eventType, instance.buildChangeEventPayload(value));
 }
 
 
