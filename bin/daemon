@@ -41,6 +41,11 @@ console.log(JSON.stringify(config, null, 4));
  * TODO: Ideally we would like to have this
  * as a separate process (docker image?)
  */
+server.on('server.post-routes', function(){
+    console.log('server post routes handler, registering routes');
+    sensor.registerRoutes(server);
+});
+
 server.start().on('server.ready', function(){
     /*
      * Sensor uses app to publish events.
