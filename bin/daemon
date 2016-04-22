@@ -75,11 +75,7 @@ occupancy.on(config.occupancy.eventType, function(value){
 });
 
 occupancy.on('occupancy.status.request', function(){
-    var payload = {
-        event: 'motion' + (occupancy._occupancy ? 'start' : 'end'),
-        value: occupancy._occupancy,
-        time: Date.now()
-    };
+    var payload = sensor.getPayloadFromValue(occupancy._occupancy);
     occupancy.emit('occupancy.status.update', payload);
 });
 
