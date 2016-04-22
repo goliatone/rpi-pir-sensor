@@ -4,7 +4,7 @@ var _inherits = require('util').inherits;
 var EventEmitter = require('events').EventEmitter;
 
 
-var _occupancy = 0;
+var _occupancy = -1;
 var _timeoutId = null;
 var _callback = null;
 var _timeout = 0.5 * 60 * 1000;
@@ -31,50 +31,58 @@ Occupancy.prototype.init = function(options, config){
 Occupancy.prototype.update = function(event){
 
     if(event.value === 1){
-        stopTimer();
-        console.log('- update: movement detected, occupancy', _occupancy);
+        clearTimer();
+        // console.log('- update: movement detected, occupancy', _occupancy);
 
         if(_occupancy === 0){
-            console.log('- update: notify movement transition');
-            return notifyChange(1);
+            // console.log('- update: notify movement transition');
+            notifyChange(1);
         }
 
         return;
     }
-
-    _occupancy = 0;
 
     startTimer();
 
     return this;
 };
 
+/*
+ * Expose an "occupancy" getter in the prototype:
+ * `instance.occupancy`
+ *
+ * Note this is a read only property.
+ */
+Object.defineProperty(Occupancy.prototype, 'occupancy', {
+    get: function(){
+        return _occupancy;
+    }
+});
+
 var instance = new Occupancy();
 
 
-function stopTimer(){
-    console.log('- stopTimer: clearTimeout. occupancy', _occupancy);
+function clearTimer(){
+    // console.log('- clearTimer: clearTimeout. occupancy', _occupancy);
     clearTimeout(_timeoutId);
+    _timeoutId = null;
 }
 
-function startTimer(force){
-    if(_timeoutId && force !== true) return console.log('- startTimer: exit, occupancy', _occupancy);
-
-    console.log('- startTimer: set timeout %s, occupancy %s', _timeout/1000, _occupancy);
-    stopTimer();
-    _timeoutId = setTimeout(check.bind(null, 0), _timeout);
-}
-
-function check(value){
-    console.log('- setTimeout callback: check', value);
-    notifyChange(0);
-    stopTimer();
+function startTimer(){
+    if(_timeoutId) return;// console.log('- startTimer: exit, occupancy', _occupancy);
+    // console.log('- startTimer: set timeout %s, occupancy %s', _timeout/1000, _occupancy);
+    _timeoutId = setTimeout(function(){
+        // console.log('- setTimeout callback: check', 0);
+        clearTimer();
+        notifyChange(0);
+    }, _timeout);
 }
 
 function notifyChange(value){
+    var update = _occupancy !== value;
     _occupancy = value;
     console.log('==> occupancy changed, set occupancy:', _occupancy);
-    instance.emit(_eventType, _occupancy);
+    if(update) instance.emit(_eventType, _occupancy);
 }
 
 
