@@ -53,11 +53,11 @@ Occupancy.prototype.buildChangeEventPayload = function(value){
 
 /*
  * Expose an "occupancy" getter in the prototype:
- * `instance.occupancy`
+ * `instance.status`
  *
  * Note this is a read only property.
  */
-Object.defineProperty(Occupancy.prototype, 'occupancy', {
+Object.defineProperty(Occupancy.prototype, 'status', {
     get: function(){
         return _occupancy;
     }
@@ -85,7 +85,7 @@ function startTimer(){
 function notifyChange(value){
     var update = _occupancy !== value;
     _occupancy = value;
-    console.log('==> occupancy changed, set occupancy:', _occupancy);
+    // console.log('==> occupancy changed, set occupancy:', _occupancy);
     if(update) instance.emit(_eventType, instance.buildChangeEventPayload(value));
 }
 
