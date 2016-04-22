@@ -52,7 +52,7 @@ if(process.env.NODE_HONEYBADGER_KEY){
 module.exports = {
     sensor: {
         //Should we use uuid?
-        id: process.env.NODE_RPI_ID,
+        id: process.env.NODE_ENV === 'development' ? 'mock-pi' : process.env.NODE_RPI_ID,
         gpio: process.env.NODE_RPI_GPIO || 'GPIO21'
     },
     device: {
