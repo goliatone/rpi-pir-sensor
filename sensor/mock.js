@@ -11,6 +11,7 @@ var Sensor = {};
 
 Sensor.init = function sensor$init(app, opts){
     console.log('MOCK ON!');
+    Sensor.options = opts;
 
     setInterval(function(){
         var value = getPresence();
@@ -24,14 +25,16 @@ Sensor.init = function sensor$init(app, opts){
             time: Date.now()
         });
     }, 1000);
+};
 
+Sensor.registerRoutes = function(app){
     //This does not work :/ figure out, move to routes and do
     //there.
     router.get('/sensor', function(req, res){
         console.log('HERE!');
         app.emit('sensor.event', {
             type: 'motionmock',
-            id: opts.id,
+            id: Sensor.options.id,
             value: 23,
             time: Date.now()
         });
