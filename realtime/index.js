@@ -24,7 +24,7 @@ module.exports = function(emitter, config){
             //TODO: emitter should be a global dispatcher so we
             //can use wherever.
             emitter.once('occupancy.status.update', function(data){
-                // console.log('occupancy.status.update', data);
+                console.log('occupancy.status.update', data);
                 var topic = buildTopic(data, config);
                 ascoltatore.publish(topic, data);
                 ascoltatore.publish('occupancy/status/check', data);
