@@ -85,7 +85,7 @@ function startTimer(){
 function notifyChange(value){
     var update = _occupancy !== value;
     _occupancy = value;
-    // console.log('==> occupancy changed, set occupancy:', _occupancy);
+    console.log('==> occupancy changed, set occupancy:', _occupancy);
     if(update) instance.emit(_eventType, instance.buildChangeEventPayload(value));
 }
 
