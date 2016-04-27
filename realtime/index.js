@@ -8,6 +8,7 @@ module.exports = function(emitter, config){
 
     ascoltatori.build(config.amqp, function (ascoltatore) {
         console.log('===> AMQP client CONNECTED');
+        console.log('AMQP config', JSON.stringify(config.amqp, null, 4));
 
         // config.eventType = occupancy.change
         emitter.on(config.eventType, function(data){
