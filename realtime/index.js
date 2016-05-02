@@ -2,9 +2,9 @@
 
 
 var ascoltatori = require('ascoltatori');
+var buildTopic = require('./topics').buildTopic;
 
-
-module.exports = function(emitter, config){
+module.exports.init = function $initialize(emitter, config){
 
     ascoltatori.build(config.amqp, function (ascoltatore) {
         console.log('===> AMQP client CONNECTED');
@@ -12,7 +12,7 @@ module.exports = function(emitter, config){
 
         // config.eventType = occupancy.change
         emitter.on(config.eventType, function(data){
-            var topic = buildTopic(data, config);
+            var topic = buildTopic(data, 'change');
             console.log('occupancy: publish event, topic:', topic);
             //TODO: we should add building, and sensor id to the topic
             ascoltatore.publish(topic, data);
@@ -26,7 +26,7 @@ module.exports = function(emitter, config){
             //can use wherever.
             emitter.once('occupancy.status.update', function(data){
                 console.log('occupancy.status.update', data);
-                var topic = buildTopic(data, config);
+                var topic = buildTopic(data, 'change');
                 ascoltatore.publish(topic, data);
                 ascoltatore.publish('occupancy/status/check', data);
             });
@@ -34,8 +34,3 @@ module.exports = function(emitter, config){
         });
     });
 };
-
-function buildTopic(data, config){
-    //TODO: include location and device info.
-    return 'occupancy/change';
-}
