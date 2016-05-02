@@ -9,6 +9,8 @@ var server = require('../server').createServer();
 var agent = require('../agent');
 var occupancy = require('../occupancy');
 var realtime = require('../realtime');
+//TODO: Refactor occupancy to use dispatcher
+// var dispatcher = require('../lib/dispatcher'); d
 
 var extend = require('gextend');
 
@@ -72,7 +74,6 @@ server.on('sensor.event', function(event){
     reporter.buffer(payload);
 });
 
-
 /*
  * This is kinda ugly. We should have a better way to
  * do this. Basically we want to ensure that the events
@@ -105,7 +106,7 @@ server.on('sensor.event', occupancy.update);
  * Initialize our realtime component.
  * It add an event listener
  */
-realtime(occupancy, config.realtime);
+realtime.init(occupancy, config.realtime);
 
 function getPayload(values, tags, defaults){
     var out = extend({}, defaults, tags);
