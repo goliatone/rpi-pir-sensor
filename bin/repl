@@ -15,7 +15,7 @@ ascoltatori.build(config, function (ascoltatore) {
         console.log('=> Occupancy status check', data);
     });
 
-    ascoltatore.subscribe('occupancy/change', function(topic, data){
+    ascoltatore.subscribe('occupancy/#/change', function(topic, data){
         console.log('=> Occupancy status change', data);
     });
 
