@@ -49,10 +49,14 @@ if(process.env.NODE_HONEYBADGER_KEY){
         );
 }
 
+function isDevelopment(){
+    return process.env.NODE_ENV === 'development';
+}
+
 module.exports = {
     sensor: {
         //Should we use uuid?
-        id: process.env.NODE_ENV === 'development' ? 'mock-pi' : process.env.NODE_RPI_ID,
+        id: isDevelopment() ? 'mock-pi' : process.env.NODE_RPI_ID,
         gpio: process.env.NODE_RPI_GPIO || 'GPIO21'
     },
     device: {
@@ -118,7 +122,9 @@ module.exports = {
          * phone-booth to be empty in order to
          * trigger an empty event?
          */
-        timeout: process.env.NODE_ENV === 'development' ? 5 * 1000 : //5s
-                                              5 * 60 * 1000 //5min
+        timeout: isDevelopment() ? 5 * 1000 : //5s
+                                   5 * 60 * 1000 //5min
     }
 };
+
+module.exports.isDevelopment = isDevelopment;
