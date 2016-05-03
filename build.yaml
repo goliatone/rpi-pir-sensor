@@ -1,0 +1,5 @@
+rpi-pir-sensor:
+  registry: dockerhub
+  registryUser: goliatone
+  notify:
+    - github
