@@ -190,3 +190,23 @@ http://raspberrypi.stackexchange.com/questions/19963/why-the-raspberry-pi-loses-
 
 [hft]:https://github.com/hypriot/flash
 [hypriot]:http://blog.hypriot.com/downloads/
+
+
+
+### Remote Shell
+webshell-server https://www.npmjs.com/package/webshell-server
+
+rshell (simple, works otb. shell2web) http://localhost:3000/cmd?cId=mypcX
+wssh (simple, works otb. shell2shell)
+pi-dashboard
+
+interactive output:
+shelljs
+https://www.npmjs.com/package/organist-term
+
+
+### Docker Agent 
+We need a way to register the pi IP address with a local service.
+If we inject an env variable to the container then we need to do that every time we bring the client up. If we use the normal docker restart service it will not work.
+We might want to use pm2 and bring up the docker container this way. See:
+https://docs.docker.com/engine/admin/host_integration/
