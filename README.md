@@ -208,5 +208,6 @@ https://www.npmjs.com/package/organist-term
 ### Docker Agent 
 We need a way to register the pi IP address with a local service.
 If we inject an env variable to the container then we need to do that every time we bring the client up. If we use the normal docker restart service it will not work.
-We might want to use pm2 and bring up the docker container this way. See:
+We might want to use pm2 and bring up the docker container this way. 
+See:
 https://docs.docker.com/engine/admin/host_integration/
