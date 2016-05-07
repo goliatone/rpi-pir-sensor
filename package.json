@@ -31,7 +31,7 @@
     "influx": "^4.1.0",
     "johnny-five": "^0.9.19",
     "morgan": "~1.5.1",
-    "raspi-io": "goliatone/raspi-led",
+    "raspi-io": "goliatone/raspi-io",
     "request": "^2.69.0",
     "serve-favicon": "~2.2.0",
     "singleton-uuid": "^0.1.0",
