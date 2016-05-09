@@ -19,6 +19,7 @@ program
     .option('-h, --hostname <hostname>', 'Instance hostname name')
     .option('-C, --context-path <context-path>', 'We can pass either a path to a json file or a path to a directory with json files named after the hostname.', false)
     .option('-d, --dry-run', 'Just display cmds but do not run them')
+    .option('-u, --username <username>', 'RPi username', 'root')
     .option('-i, --ip, <ip>', 'IP of RPi instance')
     .parse(process.argv);
 
@@ -38,6 +39,7 @@ if(program.contextPath){
 
 var context = {
     filepath: './',
+    username: program.username,
     filename: '.' + program.hostname + '-env',
     scripts: __dirname,
     address: getHostname(program.hostname, program.ip),
@@ -53,9 +55,10 @@ var tpls = [
     //create env file based on environment and instance
     'NODE_RPI_ID={{hostname}} envset {{environment}} -- slv -c={{contextpath}} {{scripts}}/templates/env.tpl > {{envfile}}',
     //copy env file to destination rpi
-    'time scp {{envfile}} root@{{address}}:/root/.env',
+    'time scp {{envfile}} {{username}}@{{address}}:~/.env',
     //update remote instance
-    'time cat {{scripts}}/update-instance | ssh root@{{address}} /bin/bash'
+    'time cat {{scripts}}/update-instance | ssh {{username}}@{{address}} /bin/bash',
+    'say -v Karen "Instance {{hostname}} has been provisioned"'
 ];
 
 var cmds = [];
