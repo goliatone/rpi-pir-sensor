@@ -1,0 +1,43 @@
+#!/bin/bash
+########################################################
+# Script used for initial provisioning of RPi instances.
+#
+########################################################
+log(){
+    say -v Karen $1
+    green=`tput setaf 2`
+    reset=`tput sgr0`
+    echo "${green}$1${reset}"
+}
+
+log "Installing resources for $1..."
+
+log "Provisioning public key"
+
+ssh-copy-id -i ~/.ssh/id_rsa.pub pirate@$1.local
+
+
+log "Provisioning env file"
+time scp ./ops/env-files/.env-$1 pirate@$1.local:~/.env
+
+
+# echo "Updating instance"
+# ssh pirate@$1.local -t "sudo apt-get update; sudo apt-get upgrade"
+
+log "Installing latest nodejs"
+CMD=$(cat<<EOF
+mkdir /tmp/node-arm && cd /tmp/node-arm;
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb;
+sudo dpkg -i node_latest_armhf.deb;
+EOF
+)
+
+ssh pirate@$1.local -t $CMD
+
+# ssh pirate@$1.local /bin/bash
+
+log "Add github to known hosts"
+ssh pirate@$1.local -t "echo 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48 >> ~/.ssh/known_hosts"
+
+
+log "Instance $1 has been provisioned"
