@@ -10,21 +10,73 @@ log(){
     echo "${green}$1${reset}"
 }
 
-log "Installing resources for $1..."
+USERNAME=pirate
+
+while test $# -gt 0; do
+        case "$1" in
+                -h|--help)
+                        echo "$package - attempt to capture frames"
+                        echo " "
+                        echo "$package [options] application [arguments]"
+                        echo " "
+                        echo "options:"
+                        echo "-h, --help                 show brief help"
+                        echo "-u, --username=USERNAME    specify an action to use"
+                        echo "-H, --hostname=HOSTNAME    specify a directory to store output in"
+                        exit 0
+                        ;;
+                -u)
+                        shift
+                        if test $# -gt 0; then
+                                export USERNAME=$1
+                        else
+                                echo "no username specified"
+                                exit 1
+                        fi
+                        shift
+                        ;;
+                --username*)
+                        export USERNAME=`echo $1 | sed -e 's/^[^=]*=//g'`
+                        shift
+                        ;;
+                -H)
+                        shift
+                        if test $# -gt 0; then
+                                export HOSTNAME=$1
+                        else
+                                echo "no hostname specified"
+                                exit 1
+                        fi
+                        shift
+                        ;;
+                --hostname*)
+                        export HOSTNAME=`echo $1 | sed -e 's/^[^=]*=//g'`
+                        shift
+                        ;;
+                *)
+                        break
+                        ;;
+        esac
+done
+
+######################################
+
+log "Installing resources for $HOSTNAME..."
 
 log "Provisioning public key"
 
-ssh-copy-id -i ~/.ssh/id_rsa.pub pirate@$1.local
+ssh-copy-id -i ~/.ssh/id_rsa.pub $USERNAME@$HOSTNAME.local
 
 
 log "Provisioning env file"
-time scp ./ops/env-files/.env-$1 pirate@$1.local:~/.env
+time scp ./ops/env-files/.env-$HOSTNAME $USERNAME@$HOSTNAME.local:~/.env
 
 
 # echo "Updating instance"
 # ssh pirate@$1.local -t "sudo apt-get update; sudo apt-get upgrade"
 
-log "Installing latest nodejs"
+log "Installing latest node"
+
 CMD=$(cat<<EOF
 mkdir /tmp/node-arm && cd /tmp/node-arm;
 wget http://node-arm.herokuapp.com/node_latest_armhf.deb;
@@ -32,12 +84,12 @@ sudo dpkg -i node_latest_armhf.deb;
 EOF
 )
 
-ssh pirate@$1.local -t $CMD
+ssh $USERNAME@$HOSTNAME.local -t $CMD
 
 # ssh pirate@$1.local /bin/bash
 
 log "Add github to known hosts"
-ssh pirate@$1.local -t "echo 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48 >> ~/.ssh/known_hosts"
+ssh $USERNAME@$HOSTNAME.local -t "echo 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48 >> ~/.ssh/known_hosts"
 
 
-log "Instance $1 has been provisioned"
+log "Instance $HOSTNAME has been provisioned"
