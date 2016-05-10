@@ -11,7 +11,7 @@ console.log(JSON.stringify(config, null, 4));
 
 ascoltatori.build(config, function (ascoltatore) {
 
-    ascoltatore.subscribe('occupancy/status/check', function(topic, data){
+    ascoltatore.subscribe('occupancy/#', function(topic, data){
         console.log('=> Occupancy status check', data);
     });
 
