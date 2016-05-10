@@ -104,6 +104,7 @@ module.exports = {
     },
     realtime: {
         eventType: 'occupancy.change',
+        id: isDevelopment() ? 'mock-pi' : process.env.NODE_RPI_ID,
         amqp: {
             type: 'amqp',
             json: true,
