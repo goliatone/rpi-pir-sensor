@@ -4,7 +4,7 @@ var _inherits = require('util').inherits;
 var EventEmitter = require('events').EventEmitter;
 
 
-var _occupancy = 0;
+var _occupancy = -1;
 var _timeoutId = null;
 var _callback = null;
 var _timeout = 0.5 * 60 * 1000;
