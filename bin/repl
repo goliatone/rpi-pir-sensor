@@ -11,12 +11,9 @@ console.log(JSON.stringify(config, null, 4));
 
 ascoltatori.build(config, function (ascoltatore) {
 
-    ascoltatore.subscribe('occupancy/#', function(topic, data){
+    ascoltatore.subscribe('occupancy/*', function(topic, data){
+        if(data.id !== 'wee-11') return console.log(data.id, data.value);
         console.log('=> Occupancy status check', data);
-    });
-
-    ascoltatore.subscribe('occupancy/#/change', function(topic, data){
-        console.log('=> Occupancy status change', data);
     });
 
     /*
@@ -31,8 +28,6 @@ ascoltatori.build(config, function (ascoltatore) {
             topic = topic || 'occupancy/status';
             console.log('Publish to', topic);
             ascoltatore.publish(topic);
-            this.write('publish ' + topic);
-            this.displayPrompt();
         }
     });
 });
