@@ -51,6 +51,7 @@ server.on('server.post-routes', function(){
 server.start().on('server.ready', function(){
     /*
      * Sensor uses app to publish events.
+     * TODO: replace server here with dispatcher
      */
     sensor.init(server, config.sensor);
 });
@@ -58,6 +59,7 @@ server.start().on('server.ready', function(){
 /*
  * We register an event listener for sensor
  * events.
+ * TODO: replace server here with dispatcher
  */
 server.on('sensor.event', function(event){
     // console.warn('sensor.event', event);
