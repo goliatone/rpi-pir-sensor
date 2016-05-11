@@ -165,6 +165,11 @@ You can use the [hypriot][hypriot] [flash tool][hft] to burn a version of Debian
 $ flash --hostname wee-8 --ssid <ssid> --password <password>
 ```
 
+### Wiring 
+
+![wiring diagram](https://raw.githubusercontent.com/goliatone/rpi-pir-sensor/master/docs/rpi-pir-sensor_bb.png "Wiring diagram")
+
+
 ### TODO
 
 - [ ] Persist GUI config changes
