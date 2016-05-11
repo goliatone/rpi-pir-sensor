@@ -94,6 +94,7 @@ occupancy.on(config.occupancy.eventType, function(value){
 
 occupancy.on('occupancy.status.request', function(){
     var payload = sensor.getPayloadFromValue(occupancy.status);
+    if(payload.value !== 1) payload.value = 0;
     console.log('occupancy.status.request', payload);
     occupancy.emit('occupancy.status.update', payload);
 });
