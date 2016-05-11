@@ -1,6 +1,7 @@
 'use strict';
 
 
+var extend = require('gextend');
 var ascoltatori = require('ascoltatori');
 var buildTopic = require('./topics').buildTopic;
 
@@ -13,9 +14,11 @@ module.exports.init = function $initialize(emitter, config){
         // config.eventType = occupancy.change
         emitter.on(config.eventType, function(data){
             var topic = buildTopic(data, 'change');
-            console.log('occupancy: publish event, topic:', topic);
-            //TODO: we should add building, and sensor id to the topic
-            ascoltatore.publish(topic, data);
+            var payload = extend({}, config.tags, data);
+
+            console.log('occupancy: publish event, topic:', topic, payload);
+
+            ascoltatore.publish(topic, payload);
         });
 
         /*

@@ -53,7 +53,7 @@ function isDevelopment(){
     return process.env.NODE_ENV === 'development';
 }
 
-module.exports = {
+var config = {
     sensor: {
         //Should we use uuid?
         id: isDevelopment() ? 'mock-pi' : process.env.NODE_RPI_ID,
@@ -128,4 +128,8 @@ module.exports = {
     }
 };
 
+//TODO: Use dependency solving.
+config.realtime.tags = config.reporter.tags;
+
+module.exports = config;
 module.exports.isDevelopment = isDevelopment;
