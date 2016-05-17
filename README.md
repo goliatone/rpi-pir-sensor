@@ -2,16 +2,11 @@
 Simple PoC to collect motion data using Raspberry Pi's.
 
 Flow:
-
 - Develop in your computer.
-- Have RPi with `git` and `docker` installed.
+- Have RPi with `git` and `docker` installed to build images.
 - Build `github.com/goliatone/rpi-pir-sensor` in your pi.
 - Push image to docker hub.
-
-Currently we are using ssh remote commands to deploy new sensor instances. In the future we want to have a `docker` cluster where you can remotely push 
-
-## Deployment
-Working on integrating with RabbitHook and RabbitHook client.
+- Pull image on client RPi.
 
 ## Development
 
@@ -69,7 +64,6 @@ To open a shell session:
 docker run -t -i --rm --privileged --cap-add=ALL -v /lib/modules:/lib/modules -v /dev:/dev goliatone/rpi-pir-sensor /bin/bash
 ```
 
-
 #### OPS
 The `ops` directory contains a set of commands to interact with docker. 
 
@@ -83,16 +77,89 @@ Then you can copy the generated token and place it in the raspberry pi. The toke
 
 The `docker-push` will send a built image to a docker hub repository.
 
-
 The `docker-publish` script will build and push the built image to a docker hub repository.
 
-##### Update RPi 
+## Deployment
+
+Working on integrating with [RabbitHook][rabbithook] and [RabbitHook client][rabbithook-client] to automate the process, meanwhile we follow a manual procedure.
+
+### Provisioning new sensors
+
+The following instructions are relevant to provision a new Raspberry sensor instance, for this example will use the name **wee-x**.
+
+Start by burning a new SD card, with the downloaded [Hypriot OS][hy-os] image:
+```
+flash --hostname wee-x --ssid <ssid> --password <password> hypriot-rpi-20151115-132854.img
+```
+
+Add local ssh key to the raspberry pi:
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@wee-x.local
+```
+
+Create a new context file inside the project's **ops/context** directory and name it **wee-x.json**. 
+This json file will be used to hold variables which will then be used to solve `env.tpl`. Currently, the two values that we store there are the device UUID and location metadata:
+
+```json
+{
+    "NODE_DEVICE_UUID":"51A149EF-469C-4466-9339-3635DF308033",
+    "NODE_APP_FLOOR": "3"
+}
+```
+
+
+Then execute the following command:
+```
+./ops/rpi-update --environment production --hostname wee-x --context-path ./ops/context
+```
+
+### Update RPi 
 
 To update a deployed RPi:
 
 ```
-./ops/rpi-update --environment=production --context-path=./ops/context --hostname=wee-4
+./ops/rpi-update --environment production --context-path ./ops/context --hostname=wee-x
 ```
+
+### Build
+To build docker images the following commands should be exectured locally on a RPi. You need to clone the repository:
+```
+$ mkdir /root/CODE && cd /root/CODE
+$ git clone https://github.com/goliatone/rpi-pir-sensor
+$ cd rpi-pir-sensor
+```
+
+From there, you can execute the ops commands:
+```
+./ops/docker-build
+```
+
+
+### Get RPi serial number
+
+Each RPi has a serial number which we can access:
+```
+awk '/Serial/{print $3}' /proc/cpuinfo
+```
+
+To get MAC address:
+```
+cat /sys/class/net/eth0/address
+```
+
+
+### Docker and RPi
+
+You can use the [hypriot][hypriot] [flash tool][hft] to burn a version of Debian for RPi with Docker support.
+
+```
+$ flash --hostname wee-8 --ssid <ssid> --password <password>
+```
+
+### Wiring 
+
+![wiring diagram](https://raw.githubusercontent.com/goliatone/rpi-pir-sensor/master/docs/rpi-pir-sensor_bb.png "Wiring diagram")
+
 
 ### InfluxDB
 
@@ -144,32 +211,6 @@ DROP SERIES FROM occupancy."default".phonebooth
 ```
 
 
-### Get RPi serial number
-
-Each RPi has a serial number which we can access:
-```
-awk '/Serial/{print $3}' /proc/cpuinfo
-```
-
-To get MAC address:
-```
-cat /sys/class/net/eth0/address
-```
-
-
-### Docker and RPi
-
-You can use the [hypriot][hypriot] [flash tool][hft] to burn a version of Debian for RPi with Docker support.
-
-```
-$ flash --hostname wee-8 --ssid <ssid> --password <password>
-```
-
-### Wiring 
-
-![wiring diagram](https://raw.githubusercontent.com/goliatone/rpi-pir-sensor/master/docs/rpi-pir-sensor_bb.png "Wiring diagram")
-
-
 ### TODO
 
 - [ ] Persist GUI config changes
@@ -179,8 +220,7 @@ $ flash --hostname wee-8 --ssid <ssid> --password <password>
 - [ ] Dynamically name each sensor, use hostname from RPi
 - [ ] Have option to autostart service or wait for GUI config
 - [ ] Have start/stop controls on GUI
-
-
+- [ ] Docker cluster lab
 
 [1]: http://blog.hypriot.com
 
@@ -195,8 +235,6 @@ http://raspberrypi.stackexchange.com/questions/19963/why-the-raspberry-pi-loses-
 
 [hft]:https://github.com/hypriot/flash
 [hypriot]:http://blog.hypriot.com/downloads/
-
-
 
 ### Remote Shell
 webshell-server https://www.npmjs.com/package/webshell-server
@@ -216,3 +254,9 @@ If we inject an env variable to the container then we need to do that every time
 We might want to use pm2 and bring up the docker container this way. 
 See:
 https://docs.docker.com/engine/admin/host_integration/
+
+
+
+[hy-os]:http://blog.hypriot.com/downloads
+[rabbithook]:https://github.com/goliatone/rabbithook
+[rabbithook-client]:https://github.com/goliatone/rabbithook-client
