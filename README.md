@@ -18,6 +18,39 @@ $ envset development -- ./bin/daemon
 
 If you run the application locally- not in an ARM environment- then the RPi specific code like raspi-io gets stubbed out.
 
+#### envset 
+
+This is the template you should use to create the `.envset` file:
+
+```
+[development]
+DEBUG=*
+
+NODE_RPI_GPIO=GPIO21
+
+NODE_INFLUX_USER=<user>
+NODE_INFLUX_PASS=<password>
+NODE_INFLUX_HOST=<host>
+NODE_INFLUX_PORT=8086
+NODE_INFLUX_DATABASE=<database>
+NODE_INFLUX_PROTOCOL=http
+NODE_INFLUX_SERIES_NAME=phonebooth
+NODE_INFLUX_DRYRUN=true
+
+NODE_APP_PORT=3000
+NODE_APP_TYPE=sensor
+NODE_APP_BUILDING=<building_name>
+
+NODE_HONEYBADGER_KEY=<key>
+
+NODE_AGENT_ENDPOINT=<menagerie_endpoint>
+NODE_DEVICE_TYPE_NAME=RPi PIR Sensor
+NODE_AGENT_TOKEN=<token>
+
+NODE_AMQP_ENDPOINT=<amqp_endpoint>
+NODE_AMQP_EXCHANGE=<amqp_exchange>
+```
+
 ### Docker
 The project runs on the Pi using [Hypriot's][1] docker image.
 
@@ -107,6 +140,7 @@ This json file will be used to hold variables which will then be used to solve `
 }
 ```
 
+NOTE: On a Mac computer you can use the `uuidgen` utility to generate the UUID.
 
 Then execute the following command:
 ```
@@ -129,9 +163,15 @@ $ git clone https://github.com/goliatone/rpi-pir-sensor
 $ cd rpi-pir-sensor
 ```
 
-From there, you can execute the ops commands:
+From there, you can execute the ops commands. To build an image:
 ```
-./ops/docker-build
+$ git pull && time ./ops/docker-build
+```
+
+Before you push, you have to `docker login` to authenticate against dockerhub.
+
+```
+$ ./ops/docker-push
 ```
 
 
@@ -162,6 +202,7 @@ $ flash --hostname wee-8 --ssid <ssid> --password <password>
 
 
 ### InfluxDB
+We are using InfluxDB as a persistence layer to collect time series data. The following is a small reference in how to use InfluxDB. They actually have great documentation.
 
 Create DB:
 
