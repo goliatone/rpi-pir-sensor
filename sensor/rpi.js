@@ -23,12 +23,20 @@ var Sensor = {};
 
 Sensor.init = function sensor$init(app, opts){
     Sensor.options = opts;
+
+    // opts.gpio = parseGPIOs(opts.gpio);
+
     /*
      * Initialize board. We will use
      * config options to do the reporting
      */
     board.on('ready', function(){
+        //TODO: we should be able to handle multiple
         var motion = new five.Motion(opts.gpio);
+
+        motion.on('calibrated', function(){
+            console.log('Sensor calibrated', Date.now());
+        });
 
         motion.on('motionstart', function(){
             debug('- Motion start');
@@ -56,3 +64,15 @@ Sensor.getPayloadFromValue = function sensor$getPayloadFromValue(value){
 };
 
 module.exports = Sensor;
+
+
+function parseGPIOs(gpio){
+    if(!gpio) return [];
+    if(gpio.indexOf('[') !== 0) return [gpio];
+
+    try {
+        gpio = JSON.parse(gpio);
+    } catch(e){}
+
+    return gpio;
+}
