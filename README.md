@@ -201,6 +201,20 @@ $ flash --hostname wee-8 --ssid <ssid> --password <password>
 ![wiring diagram](https://raw.githubusercontent.com/goliatone/rpi-pir-sensor/master/docs/rpi-pir-sensor_bb.png "Wiring diagram")
 
 
+#### Multiple Sensors
+If you want to wire multiple PIR sensors, you can. Currently, is configured to run one PIR sensor per RPi. 
+
+But if you do the proper wiring, and update the `sensor.gpio` attribute of the config object it will create an entry per each sensor.
+
+The value of `sensor.gpio` is currently being read from `process.env.NODE_RPI_GPIO` and defaults to `GPIO21`. 
+
+To add multiple sensors, `NODE_RPI_GPIO` needs to be the output of `JSON.stringify` an array with pin names:
+
+```
+NODE_RPI_GPIO=["GPIO21", "GPIO17"]
+```
+
+
 ### InfluxDB
 We are using InfluxDB as a persistence layer to collect time series data. The following is a small reference in how to use InfluxDB. They actually have great documentation.
 
