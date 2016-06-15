@@ -9,6 +9,10 @@ var movements = [];
 
 var Sensor = {};
 
+/**
+ * Initialize sensor. We use app to dispatch
+ * sensor.events
+ */
 Sensor.init = function sensor$init(app, opts){
     console.log('MOCK ON!');
     Sensor.options = opts;
