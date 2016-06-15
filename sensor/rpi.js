@@ -24,28 +24,32 @@ var Sensor = {};
 Sensor.init = function sensor$init(app, opts){
     Sensor.options = opts;
 
-    // opts.gpio = parseGPIOs(opts.gpio);
+    opts.gpio = parseGPIOs(opts.gpio);
 
     /*
      * Initialize board. We will use
      * config options to do the reporting
      */
     board.on('ready', function(){
-        //TODO: we should be able to handle multiple
-        var motion = new five.Motion(opts.gpio);
+        var motion;
+        opts.gpio.map(function(gpio){
+            console.log('Initialize motion sensor for GPIO:', gpio);
+            motion = new five.Motion(gpio);
 
-        motion.on('calibrated', function(){
-            console.log('Sensor calibrated', Date.now());
-        });
+            motion.on('calibrated', function(){
+                console.log('Sensor calibrated', Date.now());
+            });
 
-        motion.on('motionstart', function(){
-            debug('- Motion start');
-            app.emit('sensor.event', Sensor.getPayloadFromValue(1));
-        });
+            //TODO: Should we include also the name/id of the sensor?
+            motion.on('motionstart', function(){
+                debug('- Motion start');
+                app.emit('sensor.event', Sensor.getPayloadFromValue(1));
+            });
 
-        motion.on('motionend', function(){
-            debug('- Motion end');
-            app.emit('sensor.event', Sensor.getPayloadFromValue(0));
+            motion.on('motionend', function(){
+                debug('- Motion end');
+                app.emit('sensor.event', Sensor.getPayloadFromValue(0));
+            });
         });
     });
 };
@@ -72,7 +76,12 @@ function parseGPIOs(gpio){
 
     try {
         gpio = JSON.parse(gpio);
-    } catch(e){}
+    } catch(e){
+        console.error('Error parseGPIOs JSON parsing');
+        console.error('Expected valid JSON value for gpio');
+        console.error('Got:\n', gpio);
+        gpio = [];
+    }
 
     return gpio;
 }
