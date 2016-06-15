@@ -40,6 +40,7 @@ Sensor.init = function sensor$init(app, opts){
                 console.log('Sensor calibrated', Date.now());
             });
 
+            //TODO: Should we include also the name/id of the sensor?
             motion.on('motionstart', function(){
                 debug('- Motion start');
                 app.emit('sensor.event', Sensor.getPayloadFromValue(1));
